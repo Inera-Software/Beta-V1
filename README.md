@@ -16,7 +16,7 @@ Welcome to INERA SOFTWARE QUICK-IS BETA V.1, a Business Intelligence (BI) platfo
 
 ## Getting Started
 
-To run this application on your local machine, follow these steps.
+To run this application on your local machine, follow these steps, which must be followed
 
 ### Prerequisites
 
