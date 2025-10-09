@@ -53,8 +53,7 @@ INERA Navigator is built with a modern, scalable, and performant technology stac
     - **Background Color**: Very Dark Blue (`hsl(224, 80%, 2%)`)
     - **Accent Color**: Deep Blue (`hsl(216, 100%, 40%)`)
     - **Fonts**: `Montserrat` for headlines and `Roboto` for body text.
-- **Charting**: [Recharts](https://recharts.org/)
-
+      
 ## UI Components
 
 The user interface is built using a combination of custom components and a library of reusable components from **ShadCN UI**. Below is a list of the core components available in the project, which can be found in the `src/components/ui` directory. This serves as a quick reference for developers.
