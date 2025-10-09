@@ -15,6 +15,41 @@ Welcome to INERA SOFTWARE QUICK-IS BETA V.1, an intelligent Business Intelligenc
 - **Multi-faceted Signup Flow**: A guided, multi-step onboarding process for both Admins and Employees, featuring manual and AI-assisted setup options.
 - **Cloud Integration**: Connect to cloud data sources to streamline your data pipeline (feature in development).
 
+## Getting Started
+
+To run this application on your local machine, follow these steps.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 20 or later)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
+
+### 1. Install Dependencies
+
+First, navigate to the project's root directory in your terminal and install the required npm packages.
+
+```bash
+npm install
+```
+
+### 2. Set Up Environment Variables
+
+Create a file named `.env` in the root of the project and add any necessary environment variables. For this project, you'll need a Google AI API key.
+
+```
+GEMINI_API_KEY=your_google_ai_api_key_here
+```
+
+### 3. Run the Development Server
+
+Once the dependencies are installed, you can start the development server.
+
+```bash
+npm run dev
+```
+
+This will start the application in development mode. You can view it by opening [http://localhost:3000](http://localhost:3000) in your web browser.
+
 ## Tech Stack & Design
 
 INERA Navigator is built with a modern, scalable, and performant technology stack.
