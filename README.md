@@ -1,18 +1,17 @@
 # INERA SOFTWARE QUICK-IS BETA V.1
 
-Welcome to INERA SOFTWARE QUICK-IS BETA V.1, an intelligent Business Intelligence (BI) platform designed to transform your business data into actionable insights. This application leverages generative AI to provide data analysis, forecasting, and automated document generation, helping you make smarter, data-driven decisions.
+Welcome to INERA SOFTWARE QUICK-IS BETA V.1, a Business Intelligence (BI) platform designed to transform your business data into actionable insights. This application provides data analysis, forecasting, and automated document generation to help you make smarter, data-driven decisions.
 
 ## Core Features
 
-- **AI-Powered Data Analysis**: Upload your business data (CSV, XLSX) and receive high-level insights, key trends, and potential issues identified by our generative AI. 
+- **Data Analysis**: Upload your business data (CSV, XLSX) to analyze and visualize key trends.
 - **Advanced Analytics Suite**: Dive deep into your data with a comprehensive set of tools:
     - **Forecasting Analyst**: Predict future sales, customer behavior, and inventory needs.
-    - **Problem & Suggestion Engine**: Automatically identifies business problems from your data and provides AI-powered solutions.
+    - **Problem & Suggestion Engine**: Identifies business problems from your data and provides solutions.
     - **Visuals & Dashboards**: Create custom charts, KPIs, and interactive dashboards to monitor performance.
     - **Audit Zone**: Access a tailored compliance dashboard with company-specific rules, laws, and regulatory updates.
 - **Automated Document Generation**: Create professionally formatted documents like Business Requirement Documents (BRDs) and presentations (PPTs) directly from your data and analyses.
 - **Collaboration & Sharing**: Securely share insights, reports, and daily updates with your team.
-- **Multi-faceted Signup Flow**: A guided, multi-step onboarding process for both Admins and Employees, featuring manual and AI-assisted setup options.
 - **Cloud Integration**: Connect to cloud data sources to streamline your data pipeline (feature in development).
 
 ## Getting Started
@@ -32,15 +31,7 @@ First, navigate to the project's root directory in your terminal and install the
 npm install
 ```
 
-### 2. Set Up Environment Variables
-
-Create a file named `.env` in the root of the project and add any necessary environment variables. For this project, you'll need a Google AI API key.
-
-```
-GEMINI_API_KEY=your_google_ai_api_key_here
-```
-
-### 3. Run the Development Server
+### 2. Run the Development Server
 
 Once the dependencies are installed, you can start the development server.
 
@@ -62,7 +53,6 @@ INERA Navigator is built with a modern, scalable, and performant technology stac
     - **Background Color**: Very Dark Blue (`hsl(224, 80%, 2%)`)
     - **Accent Color**: Deep Blue (`hsl(216, 100%, 40%)`)
     - **Fonts**: `Montserrat` for headlines and `Roboto` for body text.
-- **Generative AI**: [Genkit](https://firebase.google.com/docs/genkit)
 - **Charting**: [Recharts](https://recharts.org/)
 
 ## UI Components
@@ -107,14 +97,14 @@ The user interface is built using a combination of custom components and a libra
 ## How to Operate the Application
 
 1.  **Sign Up**:
-    - The application provides two distinct sign-up paths: **Industrialist & Admins** and **Employees & Workers**.
-    - **Admins** go through a detailed, multi-step setup process to configure the company profile, including personal, existence, and financial information. This can be done manually or with the help of an AI assistant.
+    - The application provides sign-up paths for both **Industrialist & Admins** and **Employees & Workers**.
+    - **Admins** go through a detailed, multi-step setup process to configure the company profile.
     - **Employees** have a simpler sign-up process requiring a User ID and password.
 
 2.  **Main Dashboard**:
     - After signing in, you land on the main dashboard.
     - Here, you can **upload your business data files**.
-    - Once uploaded, you can **generate AI insights** to get a quick summary of your data.
+    - Once uploaded, you can generate insights and visualize your data.
     - From the dashboard, you can **proceed to the detailed analytics suite** to explore the data further.
 
 3.  **Analytics Suite**:
