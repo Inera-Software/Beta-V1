@@ -6,10 +6,10 @@ Welcome to INERA SOFTWARE QUICK-IS BETA V.1, a Business Intelligence (BI) platfo
 
 - **Data Analysis**: Upload your business data (CSV, XLSX) to analyze and visualize key trends.
 - **Advanced Analytics Suite**: Dive deep into your data with a comprehensive set of tools:
-    - **Forecasting Analyst**: Predict future sales, customer behavior, and inventory needs.
-    - **Problem & Suggestion Engine**: Identifies business problems from your data and provides solutions.
-    - **Visuals & Dashboards**: Create custom charts, KPIs, and interactive dashboards to monitor performance.
-    - **Audit Zone**: Access a tailored compliance dashboard with company-specific rules, laws, and regulatory update
+  - **Forecasting Analyst**: Predict future sales, customer behavior, and inventory needs.
+  - **Problem & Suggestion Engine**: Identifies business problems from your data and provides solutions.
+  - **Visuals & Dashboards**: Create custom charts, KPIs, and interactive dashboards to monitor performance.
+  - **Audit Zone**: Access a tailored compliance dashboard with company-specific rules, laws, and regulatory update
 - **Automated Document Generation**: Create professionally formatted documents like Business Requirement Documents (BRDs) and presentations (PPTs) directly from your data and analyses.
 - **Collaboration & Sharing**: Securely share insights, reports, and daily updates with your team.
 - **Cloud Integration**: Connect to cloud data sources to streamline your data pipeline (feature in development).
@@ -49,11 +49,11 @@ INERA Navigator is built with a modern, scalable, and performant technology stac
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **UI Components**: [ShadCN UI](https://ui.shadcn.com/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a custom theme. The design is guided by a specific style palette:
-    - **Primary Color**: Bright Yellow (`hsl(45, 100%, 50%)`)
-    - **Background Color**: Very Dark Blue (`hsl(224, 80%, 2%)`)
-    - **Accent Color**: Deep Blue (`hsl(216, 100%, 40%)`)
-    - **Fonts**: `Montserrat` for headlines and `Roboto` for body text.
-      
+  - **Primary Color**: Bright Yellow (`hsl(45, 100%, 50%)`)
+  - **Background Color**: Very Dark Blue (`hsl(224, 80%, 2%)`)
+  - **Accent Color**: Deep Blue (`hsl(216, 100%, 40%)`)
+  - **Fonts**: `Montserrat` for headlines and `Roboto` for body text.
+
 ## UI Components
 
 The user interface is built using a combination of custom components and a library of reusable components from **ShadCN UI**. Below is a list of the core components available in the project, which can be found in the `src/components/ui` directory. This serves as a quick reference for developers.
@@ -92,15 +92,16 @@ The user interface is built using a combination of custom components and a libra
 - **Toast**: For displaying non-intrusive notifications.
 - **Tooltip**: For displaying information on hover.
 
-
 ## How to Operate the Application
 
 1.  **Sign Up**:
+
     - The application provides sign-up paths for both **Industrialist & Admins** and **Employees & Workers**.
     - **Admins** go through a detailed, multi-step setup process to configure the company profile.
     - **Employees** have a simpler sign-up process requiring a User ID and password.
 
 2.  **Main Dashboard**:
+
     - After signing in, you land on the main dashboard.
     - Here, you can **upload your business data files**.
     - Once uploaded, you can generate insights and visualize your data.
@@ -112,3 +113,7 @@ The user interface is built using a combination of custom components and a libra
     - Create documents, presentations, and custom dashboards based on your analysis.
 
 This README should provide a clear and helpful guide for anyone interacting with the INERA Navigator application.
+
+hello hey
+
+bhuvan frontend-login [Vaishnavi]
