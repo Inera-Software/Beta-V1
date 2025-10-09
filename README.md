@@ -9,7 +9,7 @@ Welcome to INERA SOFTWARE QUICK-IS BETA V.1, a Business Intelligence (BI) platfo
     - **Forecasting Analyst**: Predict future sales, customer behavior, and inventory needs.
     - **Problem & Suggestion Engine**: Identifies business problems from your data and provides solutions.
     - **Visuals & Dashboards**: Create custom charts, KPIs, and interactive dashboards to monitor performance.
-    - **Audit Zone**: Access a tailored compliance dashboard with company-specific rules, laws, and regulatory updates.
+    - **Audit Zone**: Access a tailored compliance dashboard with company-specific rules, laws, and regulatory update
 - **Automated Document Generation**: Create professionally formatted documents like Business Requirement Documents (BRDs) and presentations (PPTs) directly from your data and analyses.
 - **Collaboration & Sharing**: Securely share insights, reports, and daily updates with your team.
 - **Cloud Integration**: Connect to cloud data sources to streamline your data pipeline (feature in development).
