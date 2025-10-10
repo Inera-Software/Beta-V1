@@ -43,7 +43,7 @@ export default function DashboardPage() {
   };
 
   const handleProceed = () => {
-    router.push('/loading-analytics');
+    router.push('/analytics');
   };
   
   const handleGoBack = () => {
