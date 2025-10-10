@@ -1,15 +1,28 @@
 
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ArrowRight, LogIn } from "lucide-react";
+import { ArrowRight, LogIn, Server } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
     const router = useRouter();
+    const [backendMessage, setBackendMessage] = useState("");
+
+    const handleCallBackend = async () => {
+        try {
+            const response = await fetch('/api/hello');
+            const data = await response.json();
+            setBackendMessage(data.message);
+        } catch (error) {
+            console.error("Failed to fetch from backend:", error);
+            setBackendMessage("Failed to connect to the backend.");
+        }
+    };
 
     return (
         <main className="flex-1 flex flex-col items-center justify-center p-4 min-h-screen bg-background">
@@ -41,7 +54,7 @@ export default function LandingPage() {
                                 </p>
                             </CardContent>
                         </Card>
-                        <Card className="bg-card/60 backdrop-blur-sm border-primary/20">
+                        <Card className="bg-card/60 backdrop_blur-sm border-primary/20">
                             <CardHeader>
                                 <CardTitle className="text-center text-2xl tracking-wider">OUR VISION</CardTitle>
                             </CardHeader>
@@ -72,6 +85,18 @@ export default function LandingPage() {
                         Sign Up
                         <ArrowRight className="ml-3 h-5 w-5"/>
                     </Button>
+                </div>
+
+                <div className="mt-12 p-4 border border-dashed border-accent rounded-lg min-h-[80px] w-full max-w-md flex flex-col items-center justify-center">
+                    <Button onClick={handleCallBackend} variant="outline">
+                        <Server className="mr-2 h-4 w-4" />
+                        Call the Backend API
+                    </Button>
+                    {backendMessage && (
+                        <p className="mt-4 text-primary animate-in fade-in">
+                            {backendMessage}
+                        </p>
+                    )}
                 </div>
             </div>
         </main>
