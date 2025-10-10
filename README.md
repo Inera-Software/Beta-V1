@@ -2,7 +2,6 @@
 
 Welcome to the frontend repository for INERA SOFTWARE QUICK-IS BETA V.1. This application is a Business Intelligence (BI) platform designed to transform your business data into actionable insights, built with Next.js and React.
 
-This project serves as the client-facing user interface and consumes data from a separate backend API.
 
 ## Architecture Overview
 
