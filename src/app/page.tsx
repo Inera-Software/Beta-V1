@@ -53,26 +53,25 @@ export default function LandingPage() {
                         </Card>
                     </div>
                 </div>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                     <Button
-                        size="lg"
-                        className="h-14 px-10 text-lg font-bold"
-                        onClick={() => router.push('/dashboard')}
-                    >
-                        <LogIn className="mr-3 h-5 w-5"/>
-                        Sign In
-                    </Button>
-                    <Button
-                        size="lg"
-                        variant="secondary"
-                        className="h-14 px-10 text-lg font-bold"
-                        disabled
-                    >
-                        Sign Up
-                        <ArrowRight className="ml-3 h-5 w-5"/>
-                    </Button>
-                </div>
+<div className="flex flex-col sm:flex-row gap-4">
+  <Button
+    size="lg"
+    className="h-14 px-10 text-lg font-bold"
+    onClick={() => router.push('/dashboard')}
+  >
+    <LogIn className="mr-3 h-5 w-5"/>
+    Sign In
+  </Button>
+  <Button
+    size="lg"
+    variant="secondary"
+    className="h-14 px-10 text-lg font-bold"
+    onClick={() => router.push('/login')}
+  >
+    Sign Up
+    <ArrowRight className="ml-3 h-5 w-5"/>
+  </Button>
+</div>
             </div>
         </main>
     )
