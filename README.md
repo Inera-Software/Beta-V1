@@ -16,13 +16,9 @@ This separation allows frontend and backend teams to work independently and depl
 ## Core Features
 
 -   **Data Analysis**: Upload your business data (CSV, XLSX) to analyze and visualize key trends.
--   **Advanced Analytics Suite**: Dive deep into your data with a comprehensive set of tools:
-    -   **Forecasting Analyst**: Predict future sales, customer behavior, and inventory needs.
-    -   **Problem & Suggestion Engine**: Identifies business problems from your data and provides solutions.
-    -   **Visuals & Dashboards**: Create custom charts, KPIs, and interactive dashboards to monitor performance.
-    -   **Audit Zone**: Access a tailored compliance dashboard with company-specific rules, laws, and regulatory updates.
--   **Automated Document Generation**: Create professionally formatted documents like Business Requirement Documents (BRDs) and presentations (PPTs) directly from your data and analyses.
--   **Collaboration & Sharing**: Securely share insights, reports, and daily updates with your team.
+-   **Advanced Analytics Suite**: Dive deep into your data with a comprehensive set of tools available on the Analytics page.
+-   **Interactive Dashboards**: After uploading data, view an interactive dashboard with AI-powered insights and a chart generator.
+-   **AI Assistant**: A chatbot is available throughout the application to assist users.
 
 ## Getting Started (For Frontend Developers)
 
@@ -42,6 +38,8 @@ This application needs to know the URL of your backend API. Create a `.env` file
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
+This tells the frontend where to send its API requests.
+
 ### 2. Install Dependencies
 
 Navigate to the project's root directory in your terminal and install the required npm packages.
@@ -60,6 +58,16 @@ npm run dev
 
 This will start the frontend application in development mode. You can view it by opening [http://localhost:3000](http://localhost:3000) in your web browser. The application will make API calls to the URL you configured in the `.env` file.
 
+## Workflow for Backend Developers
+
+Backend developers do not work in this repository. Your role is to:
+
+1.  **Develop the API**: Build and maintain the backend server using your preferred technology (e.g., Python, Django, Node.js).
+2.  **Define API Endpoints**: Create the endpoints that the frontend will call to fetch and submit data (e.g., `/api/data`, `/api/insights`).
+3.  **Provide the API URL**: Give the base URL of your running backend server to the frontend developers so they can configure it in their `.env` file.
+
+The frontend is responsible for calling your API endpoints; the backend is responsible for implementing them.
+
 ## Frontend Tech Stack
 
 -   **Framework**: [Next.js](https://nextjs.org/) (App Router)
@@ -70,41 +78,3 @@ This will start the frontend application in development mode. You can view it by
     -   **Background Color**: Very Dark Blue (`hsl(224, 80%, 2%)`)
     -   **Accent Color**: Deep Blue (`hsl(216, 100%, 40%)`)
     -   **Fonts**: `Montserrat` for headlines and `Roboto` for body text.
-
-## UI Components
-
-The user interface is built using a combination of custom components and a library of reusable components from **ShadCN UI**. Below is a list of the core components available in the project, which can be found in the `src/components/ui` directory. This serves as a quick reference for developers.
-
--   **Accordion**: For vertically stacked sections of content.
--   **Alert Dialog**: For modal dialogs that interrupt the user.
--   **Avatar**: For displaying user profile images or fallbacks.
--   **Badge**: For labels and status indicators.
--   **Button**: For actions and user interactions.
--   **Calendar**: For date selection.
--   **Card**: For grouping related content in a container.
--   **Carousel**: For displaying items in a scrollable container.
--   **Chart**: For data visualization (powered by Recharts).
--   **Checkbox**: For binary selection.
--   **Collapsible**: For showing and hiding content sections.
--   **Dialog**: For modal pop-ups and forms.
--   **Dropdown Menu**: For menus triggered by a button.
--   **Form**: For building accessible forms with validation.
--   **Input**: For text entry fields.
--   **Label**: For form field labels.
--   **Menubar**: For creating desktop-style menus.
--   **Popover**: For content that appears on top of other elements.
--   **Progress**: For displaying progress bars.
--   **Radio Group**: For selecting one option from a set.
--   **Scroll Area**: For scrollable content areas.
--   **Select**: For dropdown selection controls.
--   **Separator**: For visual dividers.
--   **Sheet**: For side panels and drawers.
--   **Sidebar**: For the main application navigation.
--   **Skeleton**: For loading state placeholders.
--   **Slider**: For range selection.
--   **Switch**: For toggling between on/off states.
--   **Table**: For displaying tabular data.
--   **Tabs**: For organizing content into switchable tabs.
--   **Textarea**: For multi-line text input.
--   **Toast**: For displaying non-intrusive notifications.
--   **Tooltip**: For displaying information on hover.
