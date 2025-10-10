@@ -41,7 +41,7 @@ export default function LandingPage() {
                                 </p>
                             </CardContent>
                         </Card>
-                        <Card className="bg-card/60 backdrop-blur-sm border-primary/20">
+                        <Card className="bg-card/60 backdrop_blur-sm border-primary/20">
                             <CardHeader>
                                 <CardTitle className="text-center text-2xl tracking-wider">OUR VISION</CardTitle>
                             </CardHeader>
