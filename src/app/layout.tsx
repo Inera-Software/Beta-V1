@@ -33,9 +33,11 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isLandingPage = pathname === "/";
-  const isHomePage = pathname === "/dashboard";
   const isLoginPage = pathname === "/login";
-  
+  const isRegisterPage = pathname === "/register";
+  const isMinimalPage = isLandingPage || isLoginPage || isRegisterPage;
+  const isHomePage = pathname === "/dashboard"; // keep if needed
+
   let backgroundVideo: string | null = "/background-video-2.mp4";
   if (isLandingPage) {
     backgroundVideo = null;
@@ -43,8 +45,8 @@ export default function RootLayout({
     backgroundVideo = "/background-video.mp4";
   }
 
-  // Only render children and Toaster on / and /login (no nav, video, etc.)
-  if (isLandingPage || isLoginPage) {
+  // Minimal layout for landing, login, and register
+  if (isMinimalPage) {
     return (
       <html lang="en" className="dark" suppressHydrationWarning>
         <head>
@@ -60,7 +62,7 @@ export default function RootLayout({
     );
   }
 
-  // All other pages
+  // Shell layout for all other routes
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
