@@ -52,7 +52,10 @@ export default function RootLayout({
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </head>
-        <body className={`${montserrat.variable} ${roboto.variable} font-body antialiased bg-background text-foreground`} suppressHydrationWarning>
+        <body
+          className={`${montserrat.variable} ${roboto.variable} font-body antialiased bg-background text-foreground`}
+          suppressHydrationWarning
+        >
           <div key={pathname} className="relative flex-1 animate-in fade-in duration-500">
             {children}
           </div>
@@ -68,7 +71,10 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={`${montserrat.variable} ${roboto.variable} font-body antialiased bg-background text-foreground`} suppressHydrationWarning>
+      <body
+        className={`${montserrat.variable} ${roboto.variable} font-body antialiased bg-background text-foreground`}
+        suppressHydrationWarning
+      >
         {backgroundVideo && (
           <video
             key={backgroundVideo}
