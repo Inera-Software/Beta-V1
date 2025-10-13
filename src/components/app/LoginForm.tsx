@@ -1,4 +1,3 @@
-// app/components/LoginForm.tsx
 'use client'
 import { useState } from "react";
 
@@ -31,7 +30,6 @@ export default function LoginForm() {
         body: JSON.stringify(user)
       });
       if (response.ok) {
-        // Authentication success (navigate, show toast, etc)
         window.location.href = "/dashboard"; // Change as needed
       } else {
         const data = await response.json();
@@ -45,12 +43,19 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-[#222D5C] font-sans">
-      <form className="w-full max-w-md px-8 py-10 rounded-xl shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
+    <div className="min-h-screen flex justify-center items-center bg-[#020817] font-sans">
+      <form
+        className="w-full max-w-md px-8 py-10 rounded-xl shadow-lg bg-[#020817] bg-opacity-90 backdrop-blur-lg border border-white border-opacity-10"
         style={{ fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif" }}
         onSubmit={handleSubmit}
       >
         <div className="text-center mb-10">
+          {/* Logo added above brand name */}
+          <img
+            src="/logo.png" // Change path to your logo file
+            alt="INERA Logo"
+            className="mx-auto mb-4 w-20 h-20 object-contain"
+          />
           <span className="inline-block text-3xl font-extrabold text-[#FFD700] tracking-widest">INERA</span>
           <h2 className="mt-4 text-white text-xl font-medium">Login to your account</h2>
         </div>
