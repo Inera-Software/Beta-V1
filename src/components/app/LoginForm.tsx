@@ -6,7 +6,7 @@ export default function LoginForm() {
   const [error, setError] = useState({ email: "", password: "", server: "" });
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "/api/login"; // Change this to your backend endpoint if needed
+  const API_URL = "/api/auth"; // Change this to your backend endpoint if needed
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -27,8 +27,9 @@ export default function LoginForm() {
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user)
+        body: JSON.stringify({ action: "login", email: user.email, password: user.password })
       });
+
       if (response.ok) {
         window.location.href = "/dashboard"; // Change as needed
       } else {
@@ -43,9 +44,8 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-[#020817] font-sans">
-      <form
-        className="w-full max-w-md px-8 py-10 rounded-xl shadow-lg bg-[#020817] bg-opacity-90 backdrop-blur-lg border border-white border-opacity-10"
+    <div className="min-h-screen flex justify-center items-center bg-[hsl(224,80%,2%)] font-sans">
+      <form className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
         style={{ fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif" }}
         onSubmit={handleSubmit}
       >
@@ -66,7 +66,7 @@ export default function LoginForm() {
             name="email"
             autoComplete="username"
             placeholder="Enter email"
-            className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder:text-white/70 border border-[#FFD700] focus:ring-2 focus:ring-[#FFD700] outline-none transition"
+            className="w-full px-4 py-3 rounded-[12px] bg-white bg-opacity-20 text-white placeholder:text-white/70 border border-[#FFD700] focus:ring-2 focus:ring-[#FFD700] outline-none transition"
             value={user.email}
             onChange={handleChange}
             required
@@ -80,7 +80,7 @@ export default function LoginForm() {
             name="password"
             autoComplete="current-password"
             placeholder="Enter password"
-            className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder:text-white/70 border border-[#FFD700] focus:ring-2 focus:ring-[#FFD700] outline-none transition"
+            className="w-full px-4 py-3 rounded-[12px] bg-white bg-opacity-20 text-white placeholder:text-white/70 border border-[#FFD700] focus:ring-2 focus:ring-[#FFD700] outline-none transition"
             value={user.password}
             onChange={handleChange}
             required
@@ -91,7 +91,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-lg bg-[#FFD700] hover:bg-white transition text-[#222D5C] font-bold text-base tracking-wide"
+          className="w-full py-3 rounded-[12px] bg-[#FFD700] hover:bg-white transition text-[#222D5C] font-bold text-base tracking-wide"
         >
           {loading ? "Signing In..." : "Sign In"}
         </button>
