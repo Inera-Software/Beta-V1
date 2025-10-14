@@ -115,7 +115,6 @@ export default function LoginForm() {
           className="w-full py-3 rounded-[12px] bg-[#FFD700] hover:bg-white transition text-[#222D5C] font-bold text-base tracking-wide"
         >
           {loading ? "Signing in..." : "Sign in"}
-          {loading ? "Signing in..." : "Sign in"}
         </button>
         <div className="mt-5 text-center">
           <span className="text-white text-sm">Forgot your password?</span>
