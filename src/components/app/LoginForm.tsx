@@ -1,13 +1,14 @@
-// app/components/LoginForm.tsx
 'use client'
 import { useState } from "react";
+import Image from "next/image"; // Import next/image
+import Link from "next/link";
 
 export default function LoginForm() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: "", password: "", server: "" });
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "/api/auth"; // Change this to your backend endpoint if needed
+  const API_URL = "/api/auth";
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -28,12 +29,15 @@ export default function LoginForm() {
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "login", email: user.email, password: user.password })
+        body: JSON.stringify({
+          action: "login",
+          email: user.email,
+          password: user.password
+        })
       });
 
       if (response.ok) {
-        // Authentication success (navigate, show toast, etc)
-        window.location.href = "/dashboard"; // Change as needed
+        window.location.href = "/dashboard";
       } else {
         const data = await response.json();
         setError((prev) => ({ ...prev, server: data.error || "Invalid credentials." }));
@@ -47,16 +51,34 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-[hsl(224,80%,2%)] font-sans">
-      <form className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
+      <form
+        className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
         style={{ fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif" }}
         onSubmit={handleSubmit}
       >
-        <div className="text-center mb-10">
-          <span className="inline-block text-3xl font-extrabold text-[#FFD700] tracking-widest">INERA</span>
-          <h2 className="mt-4 text-white text-xl font-medium">Login to your account</h2>
+        <div className="flex flex-col items-center mb-10">
+          {/* Logo at the top */}
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={56}
+            height={56} // Adjust as needed
+            className="mb-4"
+            priority
+          />
+          <span
+            className="inline-block text-3xl font-extrabold text-[#FFD700] tracking-widest"
+            style={{ color: "hsl(45, 100%, 50%)" }}
+          >
+            QuickiS
+          </span>
+          <h2 className="mt-4 text-white text-xl font-medium">
+            Login to your account
+          </h2>
         </div>
+        {/*... rest of your component (unchanged) ...*/}
         <div className="mb-5">
-          <label className="block mb-2 text-white" htmlFor="email">Email Address</label>
+          <label className="block mb-2 text-white" htmlFor="email">Email Address\UserName</label>
           <input
             type="email"
             name="email"
@@ -89,12 +111,21 @@ export default function LoginForm() {
           disabled={loading}
           className="w-full py-3 rounded-[12px] bg-[#FFD700] hover:bg-white transition text-[#222D5C] font-bold text-base tracking-wide"
         >
-          {loading ? "Signing In..." : "Sign In"}
+          {loading ? "Signing in..." : "Sign in"}
         </button>
         <div className="mt-5 text-center">
           <span className="text-white text-sm">Forgot your password?</span>
           <a href="#" className="ml-2 text-[#FFD700] hover:underline text-sm">Reset</a>
-        </div>
+        </div>       
+<div className="mt-3 text-center">
+  <span className="text-white text-sm">New user?</span>
+  <Link
+    href="/register"
+    className="ml-2 text-[#FFD700] hover:underline text-sm"
+  >
+    Sign up
+  </Link>
+</div>
       </form>
     </div>
   );
