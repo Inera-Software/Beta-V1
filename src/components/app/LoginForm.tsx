@@ -9,6 +9,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const API_URL = "/api/auth";
+  const API_URL = "/api/auth"; // Change this to your backend endpoint if needed
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -34,6 +35,7 @@ export default function LoginForm() {
           email: user.email,
           password: user.password
         })
+        body: JSON.stringify({ action: "login", email: user.email, password: user.password })
       });
 
       if (response.ok) {
@@ -53,6 +55,7 @@ export default function LoginForm() {
     <div className="min-h-screen flex justify-center items-center bg-[hsl(224,80%,2%)] font-sans">
       <form
         className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
+      <form className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
         style={{ fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif" }}
         onSubmit={handleSubmit}
       >
