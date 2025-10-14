@@ -15,6 +15,8 @@ export async function POST(request: Request) {
     if (!username || !password) {
       return NextResponse.json({ error: "Username and password required." }, { status: 400 });
     }
+
+    // Check for existing username and email
     if (users.some(user => user.username === username)) {
       return NextResponse.json({ error: "Username already exists." }, { status: 409 });
     }
@@ -37,10 +39,17 @@ export async function POST(request: Request) {
     if (email === "test@inera.com" && password === "password123") {
       return NextResponse.json({ success: true });
     }
-    if (users.some(user => user.username === email && user.password === password)) {
+
+    // Check user array for email/username and password
+    const user = users.find(user => 
+      (user.email === email || user.username === email) && user.password === password
+    );
+
+    if (user) {
       return NextResponse.json({ success: true });
+    } else {
+      return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
     }
-    return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
   }
 
   return NextResponse.json({ error: "Invalid action." }, { status: 400 });

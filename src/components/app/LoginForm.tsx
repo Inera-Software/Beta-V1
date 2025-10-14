@@ -26,6 +26,7 @@ export default function LoginForm() {
 
     setLoading(true);
     setError({ email: "", password: "", server: "" });
+
     try {
       const response = await fetch(API_URL, {
         method: "POST",

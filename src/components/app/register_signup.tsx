@@ -36,8 +36,14 @@ export default function RegisterSignup() {
   const [loading, setLoading] = useState(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError({ ...error, [e.target.name]: '' });
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+    setError(prev => ({ ...prev, [name]: '', server: '' }));
+  }
+
+  function validateEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -76,12 +82,27 @@ export default function RegisterSignup() {
     setError(prev => ({ ...prev, server: '' }));
     let newError = { username: '', password: '', server: '' };
     if (!form.username) newError.username = "Please enter your username.";
-    if (!form.password) newError.password = "Please enter your password.";
+    if (!form.email) {
+      newError.email = "Please enter your email.";
+    } else if (!validateEmail(form.email)) {
+      newError.email = "Please enter a valid email address.";
+    }
+    if (!form.password) {
+      newError.password = "Please enter your password.";
+    } else if (form.password.length < 8) {
+      newError.password = "Password must be at least 8 characters long.";
+    }
+    if (!form.confirmPassword) {
+      newError.confirmPassword = "Please confirm your password.";
+    } else if (form.password !== form.confirmPassword) {
+      newError.confirmPassword = "Passwords do not match.";
+    }
+
     setError(newError);
-    if (newError.username || newError.password) return;
+    if (Object.values(newError).some(err => err !== '')) return;
 
     setLoading(true);
-    setError({ username: '', password: '', server: '' });
+    setError(prev => ({ ...prev, server: '' }));
 
     try {
       const res = await fetch('/api/auth', {
@@ -110,15 +131,20 @@ export default function RegisterSignup() {
       setError(prev => ({ ...prev, server: "Server error. Please try again." }));
         body: JSON.stringify({ action: "register", username: form.username, password: form.password }),
       });
+
       const data = await res.json();
+
       if (res.ok) {
         window.location.href = '/dashboard';
       } else {
-        setError({ ...error, server: data.error || data.message || 'Registration failed.' });
+        setError(prev => ({
+          ...prev,
+          server: data.error || data.message || 'Registration failed.'
+        }));
         setLoading(false);
       }
-    } catch {
-      setError({ ...error, server: "Server error. Please try again." });
+    } catch (err) {
+      setError(prev => ({ ...prev, server: "Server error. Please try again." }));
       setLoading(false);
     }
   }
@@ -159,27 +185,22 @@ export default function RegisterSignup() {
         fontFamily: "'Roboto', 'Montserrat', Arial, sans-serif",
       }}
     >
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-lg"
-      >
-        <Card className="relative border border-white border-opacity-15 rounded-2xl shadow-2xl bg-white/10 backdrop-blur-xl px-8 py-10 sm:px-12 sm:py-12 flex flex-col gap-1">
-          <CardHeader className="flex flex-col items-center mb-2">
-            {/* Logo */}
+      <form onSubmit={handleSubmit} className="w-full max-w-md">
+        <Card className="border border-white border-opacity-15 rounded-2xl shadow-2xl bg-white/10 backdrop-blur-xl px-6 py-8 flex flex-col">
+          <CardHeader className="flex flex-col items-center mb-4">
             <img
               src="/logo.png"
               alt="INERA Logo"
-              className="mb-4 w-16 h-16 object-contain drop-shadow-lg"
-              style={{ background: 'transparent' }}
+              className="mb-2 w-12 h-12 object-contain drop-shadow-lg"
             />
             <CardTitle
-              className="text-center text-3xl md:text-4xl font-extrabold tracking-widest"
-              style={{ fontFamily: "'Montserrat', Arial, sans-serif", color: "hsl(45,100%,50%)" }}
+              className="text-center text-2xl md:text-3xl font-extrabold tracking-widest mb-1"
+              style={{ color: "hsl(45, 100%, 50%)" }}
             >
-              INERA
+              QuickiS
             </CardTitle>
-            <CardDescription className="text-center text-lg text-white mt-2" style={{ fontFamily: "'Roboto', Arial, sans-serif" }}>
-              Sign up for INERA Navigator
+            <CardDescription className="text-center text-base text-white mt-1">
+              Sign Up for INERA Navigator
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -274,7 +295,7 @@ export default function RegisterSignup() {
               className="w-full py-3 rounded-[12px] bg-[hsl(45,100%,50%)] hover:bg-white transition text-[hsl(224,80%,2%)] font-bold text-base md:text-lg tracking-wide mt-1 shadow-md"
               style={{ fontFamily: "'Montserrat', Arial, sans-serif" }}
             >
-              {loading ? "Signing Up..." : "Sign Up"}
+              {loading ? "Registering..." : "Register"}
             </Button>
           </CardContent>
         </Card>
