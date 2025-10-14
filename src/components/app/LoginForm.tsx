@@ -26,14 +26,21 @@ export default function LoginForm() {
     setLoading(true);
     setError({ email: "", password: "", server: "" });
 
+
     try {
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "login", email: user.email, password: user.password })
+        body: JSON.stringify({
+          action: "login",
+          email: user.email,
+          password: user.password
+        })
+       
       });
 
       if (response.ok) {
+        window.location.href = "/dashboard";
         window.location.href = "/dashboard";
       } else {
         const data = await response.json();
@@ -72,8 +79,9 @@ export default function LoginForm() {
             Login to your account
           </h2>
         </div>
+        {/*... rest of your component (unchanged) ...*/}
         <div className="mb-5">
-          <label className="block mb-2 text-white" htmlFor="email">Email Address</label>
+          <label className="block mb-2 text-white" htmlFor="email">Email Address\UserName</label>
           <input
             type="email"
             name="email"
@@ -106,6 +114,7 @@ export default function LoginForm() {
           disabled={loading}
           className="w-full py-3 rounded-[12px] bg-[#FFD700] hover:bg-white transition text-[#222D5C] font-bold text-base tracking-wide"
         >
+          {loading ? "Signing in..." : "Sign in"}
           {loading ? "Signing in..." : "Sign in"}
         </button>
         <div className="mt-5 text-center">

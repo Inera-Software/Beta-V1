@@ -14,6 +14,8 @@ export async function POST(request: Request) {
     }
 
     // Check for existing username and email
+
+    // Check for existing username and email
     if (users.some(user => user.username === username)) {
       return NextResponse.json({ error: "Username already exists." }, { status: 409 });
     }
