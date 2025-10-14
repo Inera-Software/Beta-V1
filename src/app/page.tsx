@@ -53,16 +53,16 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4">
           <Button
             size="lg"
-            className="h-14 px-10 text-lg font-bold"
+            className="h-14 px-10 text-lg font-bold rounded-[12px]"
             onClick={() => router.push('/login')}
           >
-            <LogIn className="mr-3 h-5 w-5"/>
+            <LogIn className="mr-3 h-5 w-5 "/>
             Sign In
           </Button>
           <Button
             size="lg"
             variant="secondary"
-            className="h-14 px-10 text-lg font-bold"
+            className="h-14 px-10 text-lg font-bold rounded-[12px]"
             onClick={() => router.push('/register')}
           >
             Sign Up

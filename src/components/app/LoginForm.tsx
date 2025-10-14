@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import Image from "next/image"; // Import next/image
+import Image from "next/image";
 import Link from "next/link";
 
 export default function LoginForm() {
@@ -9,7 +9,6 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const API_URL = "/api/auth";
-  const API_URL = "/api/auth"; // Change this to your backend endpoint if needed
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -26,15 +25,11 @@ export default function LoginForm() {
 
     setLoading(true);
     setError({ email: "", password: "", server: "" });
+
     try {
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "login",
-          email: user.email,
-          password: user.password
-        })
         body: JSON.stringify({ action: "login", email: user.email, password: user.password })
       });
 
@@ -55,22 +50,20 @@ export default function LoginForm() {
     <div className="min-h-screen flex justify-center items-center bg-[hsl(224,80%,2%)] font-sans">
       <form
         className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
-      <form className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10"
         style={{ fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif" }}
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col items-center mb-10">
-          {/* Logo at the top */}
           <Image
             src="/logo.png"
             alt="Logo"
             width={56}
-            height={56} // Adjust as needed
+            height={56}
             className="mb-4"
             priority
           />
           <span
-            className="inline-block text-3xl font-extrabold text-[#FFD700] tracking-widest"
+            className="inline-block text-3xl font-extrabold tracking-widest"
             style={{ color: "hsl(45, 100%, 50%)" }}
           >
             QuickiS
@@ -79,9 +72,8 @@ export default function LoginForm() {
             Login to your account
           </h2>
         </div>
-        {/*... rest of your component (unchanged) ...*/}
         <div className="mb-5">
-          <label className="block mb-2 text-white" htmlFor="email">Email Address\UserName</label>
+          <label className="block mb-2 text-white" htmlFor="email">Email Address</label>
           <input
             type="email"
             name="email"
@@ -119,16 +111,16 @@ export default function LoginForm() {
         <div className="mt-5 text-center">
           <span className="text-white text-sm">Forgot your password?</span>
           <a href="#" className="ml-2 text-[#FFD700] hover:underline text-sm">Reset</a>
-        </div>       
-<div className="mt-3 text-center">
-  <span className="text-white text-sm">New user?</span>
-  <Link
-    href="/register"
-    className="ml-2 text-[#FFD700] hover:underline text-sm"
-  >
-    Sign up
-  </Link>
-</div>
+        </div>
+        <div className="mt-3 text-center">
+          <span className="text-white text-sm">New user?</span>
+          <Link
+            href="/register"
+            className="ml-2 text-[#FFD700] hover:underline text-sm"
+          >
+            Sign up
+          </Link>
+        </div>
       </form>
     </div>
   );
