@@ -1,12 +1,26 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Optional: hide sidebar or navbar if they are globally rendered
+  useEffect(() => {
+    // Hide sidebar if it exists
+    const sidebar = document.querySelector('.sidebar'); // adjust to your sidebar class if different
+    const navbar = document.querySelector('.navbar');   // optional
+    if (sidebar) (sidebar as HTMLElement).style.display = 'none';
+    if (navbar) (navbar as HTMLElement).style.display = 'none';
+
+    return () => {
+      if (sidebar) (sidebar as HTMLElement).style.display = '';
+      if (navbar) (navbar as HTMLElement).style.display = '';
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,15 +36,13 @@ export default function ForgotPassword() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setMessage(
-        "If this email exists, a password reset link has been sent!"
-      );
+      setMessage("If this email exists, a password reset link has been sent!");
       setEmail(""); // clear input
     }, 1000);
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-[hsl(224,80%,2%)]">
+    <div className="fixed inset-0 flex justify-center items-center bg-[hsl(224,80%,2%)] z-[9999]">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10 text-white"
