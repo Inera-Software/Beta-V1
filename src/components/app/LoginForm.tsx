@@ -118,7 +118,8 @@ export default function LoginForm() {
         </button>
         <div className="mt-5 text-center">
           <span className="text-white text-sm">Forgot your password?</span>
-          <a href="#" className="ml-2 text-[#FFD700] hover:underline text-sm">Reset</a>
+          {/* <a href="#" className="ml-2 text-[#FFD700] hover:underline text-sm">Reset</a> */}
+          <Link href="/forgot-password">Reset</Link>
         </div>
         <div className="mt-3 text-center">
           <span className="text-white text-sm">New user?</span>
