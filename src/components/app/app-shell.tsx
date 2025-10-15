@@ -64,7 +64,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/finance">
+                <Link href="#">
                   <SidebarMenuButton tooltip="Finance" isActive={pathname.startsWith("/finance")}>
                     <CircleDollarSign />
                   </SidebarMenuButton>
@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <SidebarFooter>
             <SidebarMenu>
                <SidebarMenuItem>
-                <Link href="/integration-hub">
+                <Link href="#">
                   <SidebarMenuButton 
                     tooltip="Integration Hub" 
                     isActive={pathname.startsWith("/integration-hub")}
@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/database-backup">
+                <Link href="#">
                   <SidebarMenuButton tooltip="Database Backup" isActive={pathname.startsWith("/database-backup")}>
                     <Database />
                   </SidebarMenuButton>
