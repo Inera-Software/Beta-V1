@@ -11,6 +11,7 @@ This project follows a decoupled, or "headless," architecture:
 -   **Backend (Separate Repository)**: A separate server built with a framework like **Python (Django, Flask)** or **Node.js (Express)**. The backend handles all business logic, database interactions, and data processing, exposing its services through a REST or GraphQL API.
 
 This separation allows frontend and backend teams to work independently and deploy their services separately.
+Allthough, it's still need to be implemented
 
 ## Core Features
 

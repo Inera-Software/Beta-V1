@@ -41,6 +41,5 @@ export default async function connectToDB(): Promise<typeof mongoose> {
   return cached.conn;
 }
 
-console.log("Loaded MONGO_URL:", process.env.MONGO_URL ? "Found" : "Not Found");
 
 
