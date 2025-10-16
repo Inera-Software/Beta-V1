@@ -1,43 +1,27 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Optional: hide sidebar or navbar if they are globally rendered
-  useEffect(() => {
-    // Hide sidebar if it exists
-    const sidebar = document.querySelector('.sidebar'); // adjust to your sidebar class if different
-    const navbar = document.querySelector('.navbar');   // optional
-    if (sidebar) (sidebar as HTMLElement).style.display = 'none';
-    if (navbar) (navbar as HTMLElement).style.display = 'none';
-
-    return () => {
-      if (sidebar) (sidebar as HTMLElement).style.display = '';
-      if (navbar) (navbar as HTMLElement).style.display = '';
-    };
-  }, []);
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setMessage("");
 
     if (!email) {
       setError("Please enter your email.");
       return;
     }
 
-    // Simulate sending reset link (frontend only)
     setLoading(true);
+    // Simulate API call and then navigate as if the link was clicked
     setTimeout(() => {
-      setLoading(false);
-      setMessage("If this email exists, a password reset link has been sent!");
-      setEmail(""); // clear input
+      router.push('/reset-password/demo-token');
     }, 1000);
   };
 
@@ -63,7 +47,6 @@ export default function ForgotPassword() {
         />
 
         {error && <p className="text-[#FFD700] text-sm mb-2">{error}</p>}
-        {message && <p className="text-green-400 text-sm mb-2">{message}</p>}
 
         <button
           type="submit"
