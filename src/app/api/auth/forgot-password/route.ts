@@ -1,3 +1,4 @@
+
 'use server';
 
 import { NextResponse } from 'next/server';
@@ -8,11 +9,9 @@ import sgMail from '@sendgrid/mail';
 
 const sendPasswordResetEmail = async (email: string, token: string) => {
   if (!process.env.SENDGRID_API_KEY) {
-    console.error('SENDGRID_API_KEY is not defined.');
     throw new Error('Server configuration error: SendGrid API Key is missing.');
   }
   if (!process.env.SENDGRID_FROM_EMAIL) {
-    console.error('SENDGRID_FROM_EMAIL is not defined.');
     throw new Error('Server configuration error: SendGrid From Email is missing.');
   }
 
@@ -43,17 +42,22 @@ const sendPasswordResetEmail = async (email: string, token: string) => {
     console.log(`Password reset email sent to: ${email}`);
   } catch (error: any) {
     console.error('Error sending password reset email with SendGrid:', error);
+    let errorMessage = 'Could not send password reset email.';
     if (error.response) {
+      // Extract more specific error from SendGrid's response
+      const sendGridError = error.response.body.errors[0];
+      if (sendGridError) {
+        errorMessage = sendGridError.message;
+      }
       console.error(error.response.body);
     }
-    throw new Error('Could not send password reset email.');
+    throw new Error(errorMessage);
   }
 };
 
 export async function POST(request: Request) {
   try {
     if (!process.env.JWT_SECRET) {
-      console.error('JWT_SECRET is not defined in environment variables.');
       throw new Error('Server configuration error: JWT secret is missing.');
     }
     
@@ -85,7 +89,7 @@ export async function POST(request: Request) {
 
   } catch (err: any) {
     console.error('Forgot Password API Error:', err.message);
-    // Avoid leaking detailed error messages to the client
-    return NextResponse.json({ error: 'An unexpected error occurred. Please try again.' }, { status: 500 });
+    // Now this will return the specific error from SendGrid or a fallback.
+    return NextResponse.json({ error: err.message || 'An unexpected error occurred. Please try again.' }, { status: 500 });
   }
 }
