@@ -75,11 +75,13 @@ async function handleRegister(body: any) {
 
   // --- Create new user ---
   const hashedPassword = await bcrypt.hash(Password, 12);
-  const newUser = await User.create({
+  const newUser = new User({
     username: UserName,
     email: Email,
     password: hashedPassword,
   });
+
+  await newUser.save();
 
   // --- Generate Token ---
   const token = jwt.sign(
