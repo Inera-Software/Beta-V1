@@ -198,7 +198,7 @@ export default function RegisterSignup() {
              <div className="mt-6 text-center text-sm">
                 <span className="text-gray-400">Already have an account?</span>
                 <Link
-                    href="/login"
+                    href="/user/login"
                     className="ml-1.5 text-primary hover:underline font-medium"
                 >
                     Sign In

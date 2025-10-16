@@ -32,20 +32,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const isLandingPage = pathname === "/";
-  const isLoginPage = pathname === "/login";
-  const isRegisterPage = pathname === "/register";
-  const isMinimalPage = isLandingPage || isLoginPage || isRegisterPage;
-  const isHomePage = pathname === "/dashboard"; // keep if needed
+  const isMinimalPage =
+    pathname === "/" || pathname.startsWith("/user");
+  const isHomePage = pathname === "/dashboard";
 
   let backgroundVideo: string | null = "/background-video-2.mp4";
-  if (isLandingPage) {
+  if (pathname === "/") {
     backgroundVideo = null;
   } else if (isHomePage) {
     backgroundVideo = "/background-video.mp4";
   }
 
-  // Minimal layout for landing, login, and register
+  // Minimal layout for landing and user auth pages
   if (isMinimalPage) {
     return (
       <html lang="en" className="dark" suppressHydrationWarning>

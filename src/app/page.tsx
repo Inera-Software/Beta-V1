@@ -54,7 +54,7 @@ export default function LandingPage() {
           <Button
             size="lg"
             className="h-14 px-10 text-lg font-bold rounded-[12px]"
-            onClick={() => router.push('/login')}
+            onClick={() => router.push('/user/login')}
           >
             <LogIn className="mr-3 h-5 w-5 "/>
             Sign In
@@ -63,7 +63,7 @@ export default function LandingPage() {
             size="lg"
             variant="secondary"
             className="h-14 px-10 text-lg font-bold rounded-[12px]"
-            onClick={() => router.push('/register')}
+            onClick={() => router.push('/user/signup')}
           >
             Sign Up
             <ArrowRight className="ml-3 h-5 w-5"/>
