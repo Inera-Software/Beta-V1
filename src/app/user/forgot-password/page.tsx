@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -21,40 +26,61 @@ export default function ForgotPassword() {
     setLoading(true);
     // Simulate API call and then navigate as if the link was clicked
     setTimeout(() => {
+      // In a real app, you would send a reset link. Here we just navigate.
       router.push('/user/reset-password/demo-token');
     }, 1000);
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-[hsl(224,80%,2%)] z-[9999]">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md px-8 py-10 rounded-[12px] shadow-lg bg-white bg-opacity-5 backdrop-blur-lg border border-white border-opacity-10 text-white"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">Reset Password</h2>
+    <div className="min-h-screen flex justify-center items-center bg-background p-4">
+      <form onSubmit={handleSubmit} className="w-full max-w-md" noValidate>
+        <Card className="border border-primary/20 rounded-2xl shadow-2xl bg-card/80 backdrop-blur-xl p-6 md:p-8 flex flex-col">
+          <CardHeader className="p-0 flex flex-col items-center mb-6">
+             <Image
+              src="/logo.png"
+              alt="INERA Logo"
+              width={56}
+              height={56}
+              className="mb-3 object-contain drop-shadow-lg animate-pulse"
+              priority
+            />
+            <CardTitle className="text-center text-3xl font-extrabold tracking-widest text-primary">
+              Reset Password
+            </CardTitle>
+            <CardDescription className="text-center text-base text-gray-300 mt-2">
+              Enter your email to receive a password reset link.
+            </CardDescription>
+          </CardHeader>
 
-        <p className="mb-4 text-sm text-white/70">
-          Enter your email to receive a password reset link.
-        </p>
+          <CardContent className="p-0">
+            <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="email">Email</label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full"
+                required
+              />
+              {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+            </div>
 
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 rounded-[12px] bg-white bg-opacity-20 placeholder:text-white/70 mb-3 border border-[#FFD700] focus:ring-2 focus:ring-[#FFD700] outline-none transition"
-          required
-        />
-
-        {error && <p className="text-[#FFD700] text-sm mb-2">{error}</p>}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 rounded-[12px] bg-[#FFD700] hover:bg-white transition text-[#222D5C] font-bold text-base tracking-wide"
-        >
-          {loading ? "Sending..." : "Send Reset Link"}
-        </button>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-bold text-base tracking-wide"
+            >
+              {loading ? "Sending..." : "Send Reset Link"}
+            </Button>
+            <div className="mt-6 text-center text-sm">
+                <Link href="/user/login" className="text-primary hover:underline font-medium">
+                    Back to Login
+                </Link>
+            </div>
+          </CardContent>
+        </Card>
       </form>
     </div>
   );
