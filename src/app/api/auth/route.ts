@@ -1,3 +1,4 @@
+
 'use server';
 
 import {NextResponse} from 'next/server';
@@ -28,7 +29,12 @@ export async function POST(request: Request) {
     }
 
     return jsonResponse(400, {error: 'Invalid action specified.'});
-  } catch (err) {
+  } catch (err: any) {
+    // Provide more specific feedback for database connection issues
+    if (err.message.includes('connect ECONNREFUSED')) {
+        console.error('API Error: Database connection refused.', err);
+        return jsonResponse(500, { error: 'Could not connect to the database. Please check your connection string and firewall settings.' });
+    }
     console.error('API Error:', err);
     return jsonResponse(500, {error: 'Server error occurred.'});
   }
