@@ -44,6 +44,10 @@ export async function POST(request: Request) {
 async function handleRegister(body: any) {
   const {UserName, Email, Password, ConfirmPassword} = body;
 
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not defined in environment variables.');
+  }
+
   // --- Validation ---
   if (!UserName || !Email || !Password || !ConfirmPassword) {
     return jsonResponse(400, {error: 'All fields are required'});
@@ -84,7 +88,7 @@ async function handleRegister(body: any) {
     // --- Generate Token ---
     const token = jwt.sign(
       {id: newUser._id, email: newUser.email},
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET,
       {expiresIn: '7d'}
     );
 
@@ -111,6 +115,10 @@ async function handleRegister(body: any) {
 async function handleLogin(body: any) {
   const {email, password} = body;
 
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not defined in environment variables.');
+  }
+
   // --- Validation ---
   if (!email || !password) {
     return jsonResponse(400, {error: 'Email/Username and password are required'});
@@ -134,7 +142,7 @@ async function handleLogin(body: any) {
   // --- Generate Token ---
   const token = jwt.sign(
     {id: user._id, email: user.email},
-    process.env.JWT_SECRET!,
+    process.env.JWT_SECRET,
     {expiresIn: '7d'}
   );
 
