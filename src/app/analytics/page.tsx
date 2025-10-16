@@ -57,7 +57,7 @@ const analyticsFeatures: {
   {
     title: "Problem & Suggestion",
     description: "Get AI-powered suggestions.",
-    href: "#",
+    href: "/analytics/problem-and-suggestion/details",
     icon: <Lightbulb className="h-8 w-8 mb-4 text-primary" />,
   },
   {

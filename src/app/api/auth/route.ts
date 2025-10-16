@@ -1,51 +1,38 @@
-import { NextResponse } from "next/server";
 
-// In-memory users array (for dev only)
-let users: { username: string; email: string; password: string }[] = [];
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
 
+  // For development purposes, we are simulating a successful authentication
+  // without validating against a database. In a production environment,
+  // this is where you would connect to your database to verify or create users.
+
   if (body.action === "register") {
     const { username, email, password } = body;
-    // Validate fields
+    
+    // Basic validation
     if (!username || !email || !password) {
-      return NextResponse.json({ error: "Username, email, and password required." }, { status: 400 });
+      return NextResponse.json({ error: "Username, email, and password are required." }, { status: 400 });
     }
 
-    // Check for existing username and email
-
-    // Check for existing username and email
-    if (users.some(user => user.username === username)) {
-      return NextResponse.json({ error: "Username already exists." }, { status: 409 });
-    }
-    if (users.some(user => user.email === email)) {
-      return NextResponse.json({ error: "Email already in use." }, { status: 409 });
-    }
-
-    // Register new user
-    users.push({ username, email, password });
-    return NextResponse.json({ message: "User registered!" }, { status: 201 });
+    // Simulate successful registration
+    console.log(`Simulating registration for: ${email}`);
+    return NextResponse.json({ message: "User registered successfully!" }, { status: 201 });
   }
 
   if (body.action === "login") {
     const { email, password } = body;
-    // Check hardcoded credentials first
-    if (email === "test@inera.com" && password === "password123") {
-      return NextResponse.json({ success: true });
-    }
 
-    // Check user array for email/username and password
-    const user = users.find(user => 
-      (user.email === email || user.username === email) && user.password === password
-    );
-
-    if (user) {
-      return NextResponse.json({ success: true });
-    } else {
-      return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
+    // Basic validation
+    if (!email || !password) {
+      return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
     }
+    
+    // Simulate successful login
+    console.log(`Simulating login for: ${email}`);
+    return NextResponse.json({ success: true, message: "Login successful!" });
   }
 
-  return NextResponse.json({ error: "Invalid action." }, { status: 400 });
+  return NextResponse.json({ error: "Invalid action specified." }, { status: 400 });
 }
