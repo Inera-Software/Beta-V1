@@ -42,16 +42,11 @@ const sendPasswordResetEmail = async (email: string, token: string) => {
     console.log(`Password reset email sent to: ${email}`);
   } catch (error: any) {
     console.error('Error sending password reset email with SendGrid:', error);
-    let errorMessage = 'Could not send password reset email.';
-    if (error.response) {
-      // Extract more specific error from SendGrid's response
-      const sendGridError = error.response.body.errors[0];
-      if (sendGridError) {
-        errorMessage = sendGridError.message;
-      }
-      console.error(error.response.body);
+    // This makes sure the specific error from SendGrid is propagated.
+    if (error.response && error.response.body && error.response.body.errors) {
+      throw new Error(error.response.body.errors.map((e: any) => e.message).join(', '));
     }
-    throw new Error(errorMessage);
+    throw error;
   }
 };
 
