@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -43,10 +42,15 @@ export default function RegisterSignup() {
     let hasError = false;
     let newError = { username: '', email: '', password: '', confirmPassword: '', server: '' };
 
+    // Client-side validation
     if (!form.username) {
       newError.username = "Please enter a username.";
       hasError = true;
+    } else if (form.username.length < 3) {
+      newError.username = "Username must be at least 3 characters.";
+      hasError = true;
     }
+
     if (!form.email) {
       newError.email = "Please enter your email.";
       hasError = true;
@@ -54,10 +58,15 @@ export default function RegisterSignup() {
       newError.email = "Please enter a valid email address.";
       hasError = true;
     }
-    if (form.password.length < 8) {
-      newError.password = "Password must be at least 8 characters long.";
+
+    if (!form.password) {
+      newError.password = "Please enter a password.";
+      hasError = true;
+    } else if (form.password.length < 12) {
+      newError.password = "Password must be at least 12 characters.";
       hasError = true;
     }
+
     if (form.password !== form.confirmPassword) {
       newError.confirmPassword = "Passwords do not match.";
       hasError = true;
@@ -70,25 +79,30 @@ export default function RegisterSignup() {
     setError(prev => ({ ...prev, server: '' }));
 
     try {
-      const res = await fetch('/api/auth', {
+      const res = await fetch('/api/user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: "register",
-          username: form.username,
-          email: form.email,
-          password: form.password
+          UserName: form.username,
+          Email: form.email,
+          Password: form.password,
+          ConfirmPassword: form.confirmPassword
         }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        router.push('/dashboard');
+        alert("User registered successfully!");
+        router.push('/dashboard'); // Redirect after successful registration
       } else {
+        // Show server-side validation errors
+        alert(data.error || 'Registration failed.');
         setError(prev => ({ ...prev, server: data.error || 'Registration failed.' }));
       }
     } catch (err) {
+      alert("Server error. Please try again.");
       setError(prev => ({ ...prev, server: "Server error. Please try again." }));
     } finally {
       setLoading(false);
@@ -96,9 +110,7 @@ export default function RegisterSignup() {
   }
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 bg-background"
-    >
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <form onSubmit={handleSubmit} className="w-full max-w-md" noValidate>
         <Card className="border border-primary/20 rounded-2xl shadow-2xl bg-card/80 backdrop-blur-xl p-6 md:p-8 flex flex-col">
           <CardHeader className="p-0 flex flex-col items-center mb-6">
@@ -110,9 +122,7 @@ export default function RegisterSignup() {
               className="mb-3 object-contain drop-shadow-lg animate-pulse"
               priority
             />
-            <CardTitle
-              className="text-center text-3xl font-extrabold tracking-widest text-primary"
-            >
+            <CardTitle className="text-center text-3xl font-extrabold tracking-widest text-primary">
               QuickiS
             </CardTitle>
             <CardDescription className="text-center text-base text-gray-300 mt-2">
@@ -121,69 +131,24 @@ export default function RegisterSignup() {
           </CardHeader>
           <CardContent className="p-0">
             <div className="space-y-4">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="username">Username</label>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  placeholder="Choose a unique username"
-                  required
-                  value={form.username}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 text-white placeholder:text-gray-500 border border-input focus:ring-2 focus:ring-primary outline-none transition duration-300"
-                />
-                {error.username && <p className="text-red-400 mt-2 text-xs">{error.username}</p>}
-              </div>
-
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="email">Email Address</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                  required
-                  value={form.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 text-white placeholder:text-gray-500 border border-input focus:ring-2 focus:ring-primary outline-none transition duration-300"
-                />
-                {error.email && <p className="text-red-400 mt-2 text-xs">{error.email}</p>}
-              </div>
-
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  placeholder="Min. 8 characters"
-                  required
-                  value={form.password}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 text-white placeholder:text-gray-500 border border-input focus:ring-2 focus:ring-primary outline-none transition duration-300"
-                />
-                {error.password && <p className="text-red-400 mt-2 text-xs">{error.password}</p>}
-              </div>
-              
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  placeholder="Repeat your password"
-                  required
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 text-white placeholder:text-gray-500 border border-input focus:ring-2 focus:ring-primary outline-none transition duration-300"
-                />
-                {error.confirmPassword && <p className="text-red-400 mt-2 text-xs">{error.confirmPassword}</p>}
-              </div>
+              {["username", "email", "password", "confirmPassword"].map(field => (
+                <div key={field}>
+                  <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor={field}>
+                    {field === "confirmPassword" ? "Confirm Password" : field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  <input
+                    id={field}
+                    name={field}
+                    type={field.toLowerCase().includes("password") ? "password" : "text"}
+                    placeholder={field === "username" ? "Choose a unique username" : field === "email" ? "you@example.com" : "********"}
+                    required
+                    value={(form as any)[field]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-background/50 text-white placeholder:text-gray-500 border border-input focus:ring-2 focus:ring-primary outline-none transition duration-300"
+                  />
+                  {(error as any)[field] && <p className="text-red-400 mt-2 text-xs">{(error as any)[field]}</p>}
+                </div>
+              ))}
             </div>
 
             {error.server && <div className="mt-6 text-center text-red-400 text-sm p-2 bg-red-900/20 rounded-md">{error.server}</div>}
@@ -195,14 +160,12 @@ export default function RegisterSignup() {
             >
               {loading ? "Creating Account..." : "Create Account"}
             </Button>
-             <div className="mt-6 text-center text-sm">
-                <span className="text-gray-400">Already have an account?</span>
-                <Link
-                    href="/user/login"
-                    className="ml-1.5 text-primary hover:underline font-medium"
-                >
-                    Sign In
-                </Link>
+
+            <div className="mt-6 text-center text-sm">
+              <span className="text-gray-400">Already have an account?</span>
+              <Link href="/user/login" className="ml-1.5 text-primary hover:underline font-medium">
+                Sign In
+              </Link>
             </div>
           </CardContent>
         </Card>
