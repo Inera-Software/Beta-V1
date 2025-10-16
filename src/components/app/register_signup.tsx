@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 export default function RegisterSignup() {
   const [form, setForm] = useState({
@@ -25,6 +26,7 @@ export default function RegisterSignup() {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -79,7 +81,7 @@ export default function RegisterSignup() {
     setError(prev => ({ ...prev, server: '' }));
 
     try {
-      const res = await fetch('/api/user', {
+      const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -94,15 +96,12 @@ export default function RegisterSignup() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("User registered successfully!");
-        router.push('/dashboard'); // Redirect after successful registration
+        toast({ title: "Success", description: "User registered successfully!" });
+        router.push('/dashboard');
       } else {
-        // Show server-side validation errors
-        alert(data.error || 'Registration failed.');
         setError(prev => ({ ...prev, server: data.error || 'Registration failed.' }));
       }
     } catch (err) {
-      alert("Server error. Please try again.");
       setError(prev => ({ ...prev, server: "Server error. Please try again." }));
     } finally {
       setLoading(false);
@@ -140,7 +139,7 @@ export default function RegisterSignup() {
                     id={field}
                     name={field}
                     type={field.toLowerCase().includes("password") ? "password" : "text"}
-                    placeholder={field === "username" ? "Choose a unique username" : field === "email" ? "you@example.com" : "********"}
+                    placeholder={field === "username" ? "Choose a unique username" : field === "email" ? "you@example.com" : "••••••••••••"}
                     required
                     value={(form as any)[field]}
                     onChange={handleChange}
