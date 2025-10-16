@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ResetPassword() {
-  const { token } = useParams(); // get the token from URL
+  const { token } = useParams<{ token: string }>();
   const router = useRouter();
 
   const [password, setPassword] = useState("");
@@ -17,7 +18,7 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setMessage("");
@@ -37,17 +38,30 @@ export default function ResetPassword() {
       return;
     }
 
-    // Simulate reset success
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setMessage("Password has been successfully reset!");
-      setPassword("");
-      setConfirmPassword("");
+    try {
+        const response = await fetch('/api/auth/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, password }),
+        });
+        
+        const data = await response.json();
 
-      // Optional: redirect to login page after 2s
-      setTimeout(() => router.push("/user/login"), 2000);
-    }, 1000);
+        if (response.ok) {
+            setMessage("Password has been successfully reset!");
+            setPassword("");
+            setConfirmPassword("");
+            setTimeout(() => router.push("/user/login"), 3000);
+        } else {
+            setError(data.error || 'An unexpected error occurred.');
+        }
+
+    } catch(err) {
+        setError('Failed to connect to the server. Please try again.');
+    } finally {
+        setLoading(false);
+    }
   };
 
   return (
@@ -75,41 +89,51 @@ export default function ResetPassword() {
                 </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-                <div className="space-y-4">
-                    <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="password">New Password</label>
-                        <Input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="confirmPassword">Confirm New Password</label>
-                        <Input
-                            id="confirmPassword"
-                            type="password"
-                            placeholder="••••••••••••"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+              {message ? (
+                <div className="text-center space-y-4">
+                  <p className="text-green-400">{message}</p>
+                  <Link href="/user/login" className="text-primary hover:underline font-medium">
+                      Proceed to Login
+                  </Link>
                 </div>
+              ) : (
+                <>
+                  <div className="space-y-4">
+                      <div>
+                          <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="password">New Password</label>
+                          <Input
+                              id="password"
+                              type="password"
+                              placeholder="••••••••••••"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                          />
+                      </div>
+                      <div>
+                          <label className="block mb-2 text-sm font-medium text-gray-300" htmlFor="confirmPassword">Confirm New Password</label>
+                          <Input
+                              id="confirmPassword"
+                              type="password"
+                              placeholder="••••••••••••"
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              required
+                          />
+                      </div>
+                  </div>
 
-                {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
-                {message && <p className="text-green-400 text-sm mt-4">{message}</p>}
+                  {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
 
-                <Button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full mt-6 py-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-bold text-base tracking-wide"
-                >
-                    {loading ? "Resetting..." : "Reset Password"}
-                </Button>
+                  <Button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full mt-6 py-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-bold text-base tracking-wide"
+                  >
+                      {loading ? "Resetting..." : "Reset Password"}
+                  </Button>
+                </>
+              )}
             </CardContent>
         </Card>
       </form>
