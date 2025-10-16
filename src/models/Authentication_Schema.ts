@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
@@ -6,8 +7,8 @@ const userSchema = new mongoose.Schema({
     required: [true, "Username is required"],
     trim: true,
     lowercase: true,
-    unique: true,
-    minlength: [5, "Username must be at least 5 characters long"],
+    unique: "A user with that username already exists.",
+    minlength: [3, "Username must be at least 3 characters long"],
   },
 
   email: {
@@ -15,8 +16,11 @@ const userSchema = new mongoose.Schema({
     required: [true, "Email is required"],
     trim: true,
     lowercase: true,
-    unique: true,
-    minlength: [10, "Email must be at least 10 characters long"],
+    unique: "A user with that email already exists.",
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please fill a valid email address",
+    ],
   },
 
   password: {
