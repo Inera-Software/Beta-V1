@@ -19,11 +19,14 @@ export default function LoginForm() {
   const switchingAccount = isSwitching && emailParam ? knownAccounts.find(acc => acc.email === emailParam) : null;
   
   useEffect(() => {
-      if (switchingAccount) {
-          setUser(u => ({...u, email: switchingAccount.email}));
-      } else if (isSwitching) {
-        // If switch=true but account not found, redirect to regular login
-        router.replace('/user/login');
+      if (isSwitching) {
+        if (switchingAccount) {
+            setUser(u => ({...u, email: switchingAccount.email}));
+        } else {
+          // If switch=true but account not found (e.g. cleared from local storage), 
+          // redirect to regular login to avoid a broken state.
+          router.replace('/user/login');
+        }
       }
   }, [switchingAccount, isSwitching, router]);
 
@@ -143,7 +146,6 @@ export default function LoginForm() {
             value={user.email}
             onChange={handleChange}
             required
-            readOnly={!!switchingAccount}
           />
           {error.email && <p className="text-red-400 mt-2 text-xs">{error.email}</p>}
         </div>
