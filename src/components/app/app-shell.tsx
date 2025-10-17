@@ -137,12 +137,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     <div className="flex items-center gap-3 p-2">
                        <Avatar>
                         <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                          {user?.email ? user.email.charAt(0).toUpperCase() : <User />}
+                          {user?.username ? user.username.charAt(0).toUpperCase() : <User />}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none text-foreground">
-                          {user?.email || "Current User"}
+                          {user?.username || "Current User"}
                         </p>
                         <p className="text-xs leading-none text-muted-foreground">
                           Navigator Account

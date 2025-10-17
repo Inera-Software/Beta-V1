@@ -11,6 +11,7 @@ const API_URL = "/api/auth";
 interface User {
   id: string;
   email: string;
+  username: string;
 }
 
 interface AuthContextType {
@@ -26,6 +27,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 interface DecodedToken {
     id: string;
     email: string;
+    username: string;
     exp: number;
 }
 
@@ -42,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (token) {
         const decoded = jwtDecode<DecodedToken>(token);
         if (decoded.exp * 1000 > Date.now()) {
-          setUser({ id: decoded.id, email: decoded.email });
+          setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
         } else {
           // Token expired
           setUser(null);
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(null);
     }
     setLoading(false);
-  }, [token]);
+  }, [token, setToken]);
 
   useEffect(() => {
     if (!loading) {
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (response.ok) {
       setToken(data.token);
       const decoded = jwtDecode<DecodedToken>(data.token);
-      setUser({ id: decoded.id, email: decoded.email });
+      setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
     } else {
       throw new Error(data.error || "Login failed.");
     }
@@ -108,7 +110,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if(res.ok) {
         setToken(data.token);
         const decoded = jwtDecode<DecodedToken>(data.token);
-        setUser({ id: decoded.id, email: decoded.email });
+        setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
       } else {
         throw new Error(data.error || 'Registration failed.');
       }

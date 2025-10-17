@@ -87,7 +87,7 @@ async function handleRegister(body: any) {
 
     // --- Generate Token ---
     const token = jwt.sign(
-      {id: newUser._id, email: newUser.email},
+      {id: newUser._id, email: newUser.email, username: newUser.username},
       process.env.JWT_SECRET,
       {expiresIn: '7d'}
     );
@@ -141,7 +141,7 @@ async function handleLogin(body: any) {
 
   // --- Generate Token ---
   const token = jwt.sign(
-    {id: user._id, email: user.email},
+    {id: user._id, email: user.email, username: user.username},
     process.env.JWT_SECRET,
     {expiresIn: '7d'}
   );
