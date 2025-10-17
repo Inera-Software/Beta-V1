@@ -16,14 +16,16 @@ export default function LoginForm() {
 
   const isSwitching = searchParams.get('switch') === 'true';
   const emailParam = searchParams.get('email');
-
   const switchingAccount = isSwitching && emailParam ? knownAccounts.find(acc => acc.email === emailParam) : null;
   
   useEffect(() => {
       if (switchingAccount) {
           setUser(u => ({...u, email: switchingAccount.email}));
+      } else if (isSwitching) {
+        // If switch=true but account not found, redirect to regular login
+        router.replace('/user/login');
       }
-  }, [switchingAccount]);
+  }, [switchingAccount, isSwitching, router]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.target.name]: e.target.value });
