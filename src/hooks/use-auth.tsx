@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
 
   useEffect(() => {
+    setLoading(true);
     try {
       if (token) {
         const decoded = jwtDecode<DecodedToken>(token);
@@ -47,6 +48,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(null);
           setToken(null);
         }
+      } else {
+        setUser(null);
       }
     } catch (error) {
       console.error("Invalid token:", error);
@@ -54,14 +57,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(null);
     }
     setLoading(false);
-  }, [token, setToken]);
+  }, [token]);
 
   useEffect(() => {
     if (!loading) {
-        const isAuthPage = pathname.startsWith('/user/login') || pathname.startsWith('/user/signup');
-        if(user && isAuthPage) {
+        const isAuthPage = pathname.startsWith('/user/login') || pathname.startsWith('/user/signup') || pathname.startsWith('/user/forgot-password') || pathname.startsWith('/user/reset-password');
+        const isPublicPage = isAuthPage || pathname === '/';
+        
+        if (user && isAuthPage) {
             router.push('/dashboard');
-        } else if (!user && !isAuthPage && pathname !== '/') {
+        } else if (!user && !isPublicPage) {
             router.push('/user/login');
         }
     }
