@@ -122,7 +122,7 @@ export default function RegisterSignup() {
               priority
             />
             <CardTitle className="text-center text-3xl font-extrabold tracking-widest text-primary">
-              QuickiS
+              Quick IS
             </CardTitle>
             <CardDescription className="text-center text-base text-gray-300 mt-2">
               Create Your INERA Navigator Account

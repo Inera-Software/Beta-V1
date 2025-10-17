@@ -81,7 +81,7 @@ export default function LoginForm() {
           <h1
             className="inline-block text-3xl font-extrabold tracking-widest text-primary"
           >
-            QuickiS
+            Quick IS
           </h1>
           <h2 className="mt-4 text-white text-xl font-medium">
             Login to your account
