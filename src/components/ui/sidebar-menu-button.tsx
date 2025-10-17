@@ -33,14 +33,14 @@ const sidebarMenuButtonVariants = cva(
   }
 )
 
-const SidebarMenuButton = React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentProps<"button"> & {
+type SidebarMenuButtonProps = React.ComponentProps<"button"> & {
     asChild?: boolean
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
-  } & VariantProps<typeof sidebarMenuButtonVariants>
->(
+} & VariantProps<typeof sidebarMenuButtonVariants>
+
+
+const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
   (
     {
       asChild = false,
@@ -73,19 +73,15 @@ const SidebarMenuButton = React.forwardRef<
       return button
     }
 
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip,
-      }
-    }
+    const tooltipContent = typeof tooltip === 'string' ? { children: tooltip } : tooltip;
 
     return (
         <Tooltip>
             <TooltipTrigger asChild>{button}</TooltipTrigger>
             <TooltipContent
-            side="right"
-            align="center"
-            {...tooltip}
+                side="right"
+                align="center"
+                {...tooltipContent}
             />
         </Tooltip>
     )
