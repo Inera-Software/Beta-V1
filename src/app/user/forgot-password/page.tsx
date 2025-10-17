@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState } from "react";
@@ -36,16 +37,18 @@ export default function ForgotPassword() {
         
         const data = await response.json();
 
-        if (response.ok) {
-            // In a real app, an email is sent. In this demo, we get a token back.
+        if (response.ok && data.token) {
+            // User was found and a token was generated.
             setMessage("User found! Redirecting to password reset page...");
             setTimeout(() => {
                 router.push(`/user/reset-password/${data.token}`);
             }, 2000);
         } else {
-             // Even on failure, show a generic message to prevent user enumeration
-             setMessage("If an account with that email exists, a reset link has been sent.");
-             // We don't set loading to false here, to give the impression of an email being sent
+             // Even on failure or if user not found, show a generic message to prevent user enumeration
+             // This is a security best practice.
+             setMessage("If an account with that email exists, a reset link will be sent.");
+             // We don't set loading to false immediately, to give the impression of an email being sent regardless of outcome.
+             setTimeout(() => setLoading(false), 1500);
         }
 
     } catch (err) {
