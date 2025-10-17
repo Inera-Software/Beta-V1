@@ -4,11 +4,6 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 const sidebarMenuButtonVariants = cva(
@@ -36,7 +31,6 @@ const sidebarMenuButtonVariants = cva(
 type SidebarMenuButtonProps = React.ComponentProps<"button"> & {
     asChild?: boolean
     isActive?: boolean
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>
 } & VariantProps<typeof sidebarMenuButtonVariants>
 
 
@@ -47,7 +41,6 @@ const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonP
       isActive = false,
       variant = "default",
       size = "default",
-      tooltip,
       className,
       children,
       ...props
@@ -56,7 +49,7 @@ const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonP
   ) => {
     const Comp = asChild ? Slot : "button"
 
-    const button = (
+    return (
       <Comp
         ref={ref}
         data-sidebar="menu-button"
@@ -67,23 +60,6 @@ const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonP
       >
         {children}
       </Comp>
-    )
-
-    if (!tooltip) {
-      return button
-    }
-
-    const tooltipContent = typeof tooltip === 'string' ? { children: tooltip } : tooltip;
-
-    return (
-        <Tooltip>
-            <TooltipTrigger asChild>{button}</TooltipTrigger>
-            <TooltipContent
-                side="right"
-                align="center"
-                {...tooltipContent}
-            />
-        </Tooltip>
     )
   }
 )

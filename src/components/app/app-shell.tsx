@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  SidebarTooltip
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -48,7 +49,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SidebarMenuItem>
               <Link href="/dashboard">
                 <SidebarMenuButton
-                  tooltip="INERA"
                   className="bg-transparent hover:bg-transparent"
                 >
                   <Image
@@ -66,67 +66,74 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <Link href="/dashboard">
-                <SidebarMenuButton
-                  tooltip="Home"
-                  isActive={pathname.startsWith("/dashboard")}
-                >
-                  <Home />
-                </SidebarMenuButton>
-              </Link>
+                <SidebarTooltip text="Home">
+                    <Link href="/dashboard">
+                        <SidebarMenuButton
+                        isActive={pathname.startsWith("/dashboard")}
+                        >
+                        <Home />
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarTooltip>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/analytics">
-                <SidebarMenuButton
-                  tooltip="Analytics"
-                  isActive={pathname.startsWith("/analytics")}
-                >
-                  <BarChart />
-                </SidebarMenuButton>
-              </Link>
+                <SidebarTooltip text="Analytics">
+                    <Link href="/analytics">
+                        <SidebarMenuButton
+                        isActive={pathname.startsWith("/analytics")}
+                        >
+                        <BarChart />
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarTooltip>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="#">
-                <SidebarMenuButton
-                  tooltip="Finance"
-                  isActive={pathname.startsWith("/finance")}
-                >
-                  <CircleDollarSign />
-                </SidebarMenuButton>
-              </Link>
+                <SidebarTooltip text="Finance">
+                    <Link href="#">
+                        <SidebarMenuButton
+                        isActive={pathname.startsWith("/finance")}
+                        >
+                        <CircleDollarSign />
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarTooltip>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <Link href="#">
-                <SidebarMenuButton
-                  tooltip="Integration Hub"
-                  isActive={pathname.startsWith("/integration-hub")}
-                  className="text-primary animate-pulse ring-2 ring-primary/50 rounded-lg"
-                >
-                  <CreditCard />
-                </SidebarMenuButton>
-              </Link>
+                <SidebarTooltip text="Integration Hub">
+                    <Link href="#">
+                        <SidebarMenuButton
+                        isActive={pathname.startsWith("/integration-hub")}
+                        className="text-primary animate-pulse ring-2 ring-primary/50 rounded-lg"
+                        >
+                        <CreditCard />
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarTooltip>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="#">
-                <SidebarMenuButton
-                  tooltip="Database Backup"
-                  isActive={pathname.startsWith("/database-backup")}
-                >
-                  <Database />
-                </SidebarMenuButton>
-              </Link>
+                <SidebarTooltip text="Database Backup">
+                    <Link href="#">
+                        <SidebarMenuButton
+                        isActive={pathname.startsWith("/database-backup")}
+                        >
+                        <Database />
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarTooltip>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton tooltip="Manage Accounts">
-                    <UserCog />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
+                <SidebarTooltip text="Manage Accounts">
+                    <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton>
+                        <UserCog />
+                    </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                </SidebarTooltip>
                 <DropdownMenuContent
                   className="w-64"
                   side="right"
