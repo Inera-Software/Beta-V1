@@ -125,7 +125,7 @@ export default function RegisterSignup() {
               Quick IS
             </CardTitle>
             <CardDescription className="text-center text-base text-gray-300 mt-2">
-              Create Your INERA Navigator Account
+              Create your Navigator account
             </CardDescription>
           </CardHeader>
           <CardContent className="p-0">
