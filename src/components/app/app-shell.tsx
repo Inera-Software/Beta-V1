@@ -28,7 +28,6 @@ import {
   Database,
   UserCog,
   LogOut,
-  PlusCircle,
   User,
 } from "lucide-react";
 import Image from "next/image";
@@ -42,10 +41,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, signOut, knownAccounts } = useAuth();
   const router = useRouter();
 
-  const handleAddAccount = () => {
-    signOut(true); // pass true to signify we want to add an account
-  }
-  
   const handleSwitchAccount = (email: string) => {
      router.push(`/user/login?email=${encodeURIComponent(email)}&switch=true`);
   }
@@ -187,10 +182,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                     <DropdownMenuItem onSelect={handleAddAccount}>
-                      <PlusCircle className="mr-2 h-4 w-4" />
-                      <span>Add another account</span>
-                    </DropdownMenuItem>
                      <DropdownMenuItem onSelect={() => signOut()}>
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Sign out</span>
