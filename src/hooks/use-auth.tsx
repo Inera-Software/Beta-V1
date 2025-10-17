@@ -49,12 +49,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const decoded = jwtDecode<DecodedToken>(currentToken);
         if (decoded.exp * 1000 > Date.now()) {
             const userData = { id: decoded.id, email: decoded.email, username: decoded.username };
-            // Only update state if user is different
             if (user?.id !== userData.id) {
                 setUser(userData);
             }
         } else {
-            // Token expired
             if (user !== null) setUser(null);
             if (token !== null) setToken(null);
         }
@@ -67,7 +65,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
   useEffect(() => {
-    setLoading(true);
     updateUserFromToken(token);
     setLoading(false);
   }, [token, updateUserFromToken]);
@@ -143,7 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = (isAddingAccount = false) => {
     setUser(null);
     setToken(null);
-    const destination = isAddingAccount ? '/user/login?addAccount=true' : '/user/login';
+    const destination = isAddingAccount ? '/user/signup' : '/user/login';
     router.push(destination);
   };
 
