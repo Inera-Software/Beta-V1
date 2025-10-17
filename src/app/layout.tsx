@@ -56,7 +56,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           {isMinimalPage ? (
-            <div key={pathname} className="relative flex-1 animate-in fade-in duration-500">
+            <div className="relative flex-1 animate-in fade-in duration-500">
               {children}
             </div>
           ) : (
@@ -75,7 +75,7 @@ export default function RootLayout({
               )}
               <ClientTooltipProvider>
                 <AppShellContent>
-                  <div key={pathname} className="relative flex-1 animate-in fade-in duration-500">
+                  <div className="relative flex-1 animate-in fade-in duration-500">
                     {children}
                   </div>
                 </AppShellContent>

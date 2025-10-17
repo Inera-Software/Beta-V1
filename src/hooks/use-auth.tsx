@@ -19,7 +19,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   signUp: (username: string, email: string, password: string, confirm: string) => Promise<void>;
-  loading: boolean; // Keep for compatibility, but it will be false.
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,22 +43,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (token) {
         const decoded = jwtDecode<DecodedToken>(token);
         if (decoded.exp * 1000 > Date.now()) {
-          setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
+          // Only update state if the user is different
+          if (decoded.id !== user?.id) {
+            setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
+          }
         } else {
-          setUser(null);
-          setToken(null);
+          // Token expired, clear user if it's currently set
+          if (user !== null) {
+            setUser(null);
+            setToken(null);
+          }
         }
       } else {
-        setUser(null);
+        // No token, clear user if it's currently set
+        if (user !== null) {
+          setUser(null);
+        }
       }
     } catch (error) {
       console.error("Invalid token:", error);
-      setUser(null);
-      setToken(null);
+      if (user !== null) {
+        setUser(null);
+        setToken(null);
+      }
     } finally {
         setLoading(false);
     }
-  }, [token, setToken]);
+  }, [token, user, setToken]);
 
   useEffect(() => {
     if (loading) return;
