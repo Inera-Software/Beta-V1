@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -7,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function RegisterSignup() {
   const [form, setForm] = useState({
@@ -27,6 +29,7 @@ export default function RegisterSignup() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { signUp } = useAuth();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -81,28 +84,11 @@ export default function RegisterSignup() {
     setError(prev => ({ ...prev, server: '' }));
 
     try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: "register",
-          UserName: form.username,
-          Email: form.email,
-          Password: form.password,
-          ConfirmPassword: form.confirmPassword
-        }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        toast({ title: "Success", description: "User registered successfully!" });
-        router.push('/dashboard');
-      } else {
-        setError(prev => ({ ...prev, server: data.error || 'Registration failed.' }));
-      }
-    } catch (err) {
-      setError(prev => ({ ...prev, server: "Server error. Please try again." }));
+      await signUp(form.username, form.email, form.password, form.confirmPassword);
+      toast({ title: "Success", description: "User registered successfully!" });
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(prev => ({ ...prev, server: err.message || 'Registration failed.' }));
     } finally {
       setLoading(false);
     }

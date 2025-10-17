@@ -1,16 +1,17 @@
+
 'use client'
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function LoginForm() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: "", password: "", server: "" });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const API_URL = "/api/auth";
+  const { signIn } = useAuth();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -38,25 +39,10 @@ export default function LoginForm() {
     setError({ email: "", password: "", server: "" });
 
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "login",
-          email: user.email,
-          password: user.password
-        })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        router.push("/dashboard");
-      } else {
-        setError((prev) => ({ ...prev, server: data.error || "An unknown error occurred." }));
-      }
-    } catch (err) {
-      setError((prev) => ({ ...prev, server: "Network error. Could not connect to the server." }));
+      await signIn(user.email, user.password);
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError((prev) => ({ ...prev, server: err.message || "An unknown error occurred." }));
     } finally {
       setLoading(false);
     }
