@@ -28,11 +28,7 @@ export async function POST(request: Request) {
     if (action === 'login') {
       return await handleLogin(body);
     }
-
-    if (action === 'check-user') {
-      return await handleCheckUser(body);
-    }
-
+    
     return jsonResponse(400, {error: 'Invalid action specified.'});
   } catch (err: any) {
     if (err.message.includes('connect ECONNREFUSED')) {
@@ -43,25 +39,6 @@ export async function POST(request: Request) {
     return jsonResponse(500, {error: 'Server error occurred.'});
   }
 }
-
-// --- Handler for User Existence Check ---
-async function handleCheckUser(body: any) {
-  const { email } = body;
-  if (!email) {
-    return jsonResponse(400, { error: 'Email is required.' });
-  }
-
-  const user = await User.findOne({ email }).lean();
-  
-  if (user) {
-    // User exists, return success but don't leak info.
-    return jsonResponse(200, { message: 'User check successful.' });
-  } else {
-    // User doesn't exist, still return a generic success to prevent enumeration.
-    return jsonResponse(200, { message: 'User check successful.' });
-  }
-}
-
 
 // --- Handler for User Registration ---
 async function handleRegister(body: any) {
