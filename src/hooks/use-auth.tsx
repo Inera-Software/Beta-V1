@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(null);
     }
     setLoading(false);
-  }, [token, setToken]);
+  }, [token]);
 
   useEffect(() => {
     if (!loading) {
