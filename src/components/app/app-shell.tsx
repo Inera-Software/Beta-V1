@@ -30,7 +30,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link href="/">
+                <Link href="/dashboard">
                   <SidebarMenuButton
                     tooltip="INERA"
                     className="bg-transparent hover:bg-transparent"
@@ -93,7 +93,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/">
+                <Link href="/dashboard">
                   <SidebarMenuButton tooltip="Manage Acounts">
                     <UserCog />
                   </SidebarMenuButton>
