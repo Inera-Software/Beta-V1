@@ -3,6 +3,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,
@@ -110,6 +111,27 @@ const SidebarMenuItem = React.forwardRef<
   />
 ))
 SidebarMenuItem.displayName = "SidebarMenuItem"
+
+
+export function SidebarTooltip({
+    children,
+    text
+}: {
+    children: React.ReactNode,
+    text: string
+}) {
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                {children}
+            </TooltipTrigger>
+            <TooltipContent side="right" align="center">
+                {text}
+            </TooltipContent>
+        </Tooltip>
+    )
+}
+
 
 export {
   Sidebar,

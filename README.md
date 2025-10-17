@@ -11,6 +11,7 @@ This project follows a decoupled, or "headless," architecture:
 -   **Backend (Separate Repository)**: A separate server built with a framework like **Python (Django, Flask)** or **Node.js (Express)**. The backend handles all business logic, database interactions, and data processing, exposing its services through a REST or GraphQL API.
 
 This separation allows frontend and backend teams to work independently and deploy their services separately.
+Allthough, it's still need to be implemented
 
 ## Core Features
 
@@ -18,6 +19,7 @@ This separation allows frontend and backend teams to work independently and depl
 -   **Advanced Analytics Suite**: Dive deep into your data with a comprehensive set of tools available on the Analytics page.
 -   **Interactive Dashboards**: After uploading data, view an interactive dashboard with AI-powered insights and a chart generator.
 -   **AI Assistant**: A chatbot is available throughout the application to assist users.
+-   **Multi-Account Management**: A professional, Gmail-like interface for managing user sessions. Users can sign in with multiple accounts and seamlessly switch between them, with known accounts remembered by the browser.
 
 ## Getting Started (For Frontend Developers)
 
@@ -77,4 +79,3 @@ The frontend is responsible for calling your API endpoints; the backend is respo
     -   **Background Color**: Very Dark Blue (`hsl(224, 80%, 2%)`)
     -   **Accent Color**: Deep Blue (`hsl(216, 100%, 40%)`)
     -   **Fonts**: `Montserrat` for headlines and `Roboto` for body text.
-

@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Metadata } from "next";
@@ -8,6 +9,7 @@ import { Chatbot } from "@/components/app/chatbot";
 import { usePathname } from "next/navigation";
 import { Montserrat, Roboto } from "next/font/google";
 import { ClientTooltipProvider } from "@/components/app/client-tooltip-provider";
+import { AuthProvider } from "@/hooks/use-auth";
 
 const metadata: Metadata = {
   title: "INERA Navigator",
@@ -43,27 +45,6 @@ export default function RootLayout({
     backgroundVideo = "/background-video.mp4";
   }
 
-  // Minimal layout for landing and user auth pages
-  if (isMinimalPage) {
-    return (
-      <html lang="en" className="dark" suppressHydrationWarning>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </head>
-        <body
-          className={`${montserrat.variable} ${roboto.variable} font-body antialiased bg-background text-foreground`}
-          suppressHydrationWarning
-        >
-          <div key={pathname} className="relative flex-1 animate-in fade-in duration-500">
-            {children}
-          </div>
-          <Toaster />
-        </body>
-      </html>
-    );
-  }
-
-  // Shell layout for all other routes
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
@@ -73,27 +54,37 @@ export default function RootLayout({
         className={`${montserrat.variable} ${roboto.variable} font-body antialiased bg-background text-foreground`}
         suppressHydrationWarning
       >
-        {backgroundVideo && (
-          <video
-            key={backgroundVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="fixed inset-0 w-screen h-screen object-cover -z-50"
-          >
-            <source src={backgroundVideo} type="video/mp4" />
-          </video>
-        )}
-        <ClientTooltipProvider>
-          <AppShellContent>
-            <div key={pathname} className="relative flex-1 animate-in fade-in duration-500">
+        <AuthProvider>
+          {isMinimalPage ? (
+            <div className="relative flex-1 animate-in fade-in duration-500">
               {children}
             </div>
-          </AppShellContent>
-        </ClientTooltipProvider>
-        <Toaster />
-        <Chatbot />
+          ) : (
+            <>
+              {backgroundVideo && (
+                <video
+                  key={backgroundVideo}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="fixed inset-0 w-screen h-screen object-cover -z-50"
+                >
+                  <source src={backgroundVideo} type="video/mp4" />
+                </video>
+              )}
+              <ClientTooltipProvider>
+                <AppShellContent>
+                  <div className="relative flex-1 animate-in fade-in duration-500">
+                    {children}
+                  </div>
+                </AppShellContent>
+              </ClientTooltipProvider>
+              <Chatbot />
+            </>
+          )}
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );
