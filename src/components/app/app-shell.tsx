@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Home,
   BarChart,
@@ -127,19 +128,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-56"
+                  className="w-64"
                   side="right"
                   align="end"
                   sideOffset={8}
                 >
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                   <DropdownMenuLabel className="font-normal">
+                    <div className="flex items-center gap-3 p-2">
+                       <Avatar>
+                        <AvatarFallback className="bg-primary text-primary-foreground font-bold">
+                          {user?.email ? user.email.charAt(0).toUpperCase() : <User />}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none text-foreground">
+                          {user?.email || "Current User"}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          Navigator Account
+                        </p>
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem disabled>
-                      <User className="mr-2 h-4 w-4" />
-                      <span>{user?.email || "Current User"}</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem disabled>
+                     <DropdownMenuItem disabled>
                       <PlusCircle className="mr-2 h-4 w-4" />
                       <span>Add Account</span>
                     </DropdownMenuItem>
