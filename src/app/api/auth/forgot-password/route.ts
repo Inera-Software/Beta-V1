@@ -6,13 +6,13 @@ import User from '@/models/Authentication_Schema';
 import connectToDB from '@/config/database';
 import jwt from 'jsonwebtoken';
 
-// In a real app, this would use an email service like SendGrid
-// const sendPasswordResetEmail = async (email: string, token: string) => { ... };
+// Wrong Function
 
 export async function POST(request: Request) {
   try {
     if (!process.env.JWT_SECRET) {
-      throw new Error('Server configuration error: JWT secret is missing.');
+      console.log('Error in seting variables');
+      process.exit(1);
     }
     
     await connectToDB();
@@ -24,9 +24,6 @@ export async function POST(request: Request) {
 
     const user = await User.findOne({ email });
 
-    // To prevent user enumeration, we don't reveal if the user was found or not.
-    // If a user is found, we proceed to generate a token and simulate sending an email.
-    // If not, we still return a generic success message.
     if (user) {
       // User was found, generate a token for them.
       const token = jwt.sign(
@@ -34,7 +31,7 @@ export async function POST(request: Request) {
           process.env.JWT_SECRET,
           { expiresIn: '15m' } // Token is valid for 15 minutes
       );
-      // In a real app, you would email this token to the user.
+      // This needs to be worked
       // await sendPasswordResetEmail(user.email, token);
       
       // For this implementation, we return the token to be used by the frontend for redirection.

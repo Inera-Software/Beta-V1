@@ -45,7 +45,8 @@ async function handleRegister(body: any) {
   const {UserName, Email, Password, ConfirmPassword} = body;
 
   if (!process.env.JWT_SECRET) {
-    throw new Error('JWT_SECRET is not defined in environment variables.');
+    console.error('Critical: Missing JWT_SECRET');
+    process.exit(1)
   }
 
   // --- Validation ---
@@ -146,6 +147,7 @@ async function handleLogin(body: any) {
     {expiresIn: '7d'}
   );
 
+  // Sending response
   return jsonResponse(200, {
     message: 'Login successful',
     user: {id: user._id, username: user.username, email: user.email},

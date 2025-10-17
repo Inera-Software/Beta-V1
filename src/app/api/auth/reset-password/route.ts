@@ -26,8 +26,8 @@ export async function POST(request: Request) {
     const { token, password } = validation.data;
     
     if (!process.env.JWT_SECRET) {
-        console.error('JWT_SECRET is not defined.');
-        throw new Error('Server configuration error.');
+        console.error('Environment is not defined.');
+        process.exit(1);
     }
 
     let decoded: any;
