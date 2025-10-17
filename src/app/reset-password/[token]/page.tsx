@@ -1,22 +1,3 @@
-// import { useParams } from "next/navigation";
-
-// const { token } = useParams(); // token is whatever is in the URL
-
-// Generate a random token in JS
-// function generateToken(length = 20) {
-//   const chars =
-//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-//   let token = "";
-//   for (let i = 0; i < length; i++) {
-//     token += chars.charAt(Math.floor(Math.random() * chars.length));
-//   }
-//   return token;
-// }
-
-// // Example usage
-// const token = generateToken();
-// console.log("Simulated reset token:", token);
-
 'use client'
 
 import { useState } from "react";
