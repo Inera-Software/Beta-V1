@@ -33,13 +33,22 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { SidebarMenuButton } from "../ui/sidebar-menu-button";
 import { useAuth } from "@/hooks/use-auth";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user, signOut, knownAccounts } = useAuth();
+  const router = useRouter();
+
+  const handleAddAccount = () => {
+    signOut(true); // pass true to signify we want to add an account
+  }
+  
+  const handleSwitchAccount = (email: string) => {
+     router.push(`/user/login?email=${encodeURIComponent(email)}&switch=true`);
+  }
 
   return (
     <div className="flex">
@@ -135,40 +144,58 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     </DropdownMenuTrigger>
                 </SidebarTooltip>
                 <DropdownMenuContent
-                  className="w-64"
+                  className="w-80"
                   side="right"
                   align="end"
                   sideOffset={8}
                 >
                    <DropdownMenuLabel className="font-normal">
                     <div className="flex items-center gap-3 p-2">
-                       <Avatar>
-                        <AvatarFallback className="bg-primary text-primary-foreground font-bold">
+                       <Avatar className="h-12 w-12">
+                        <AvatarFallback className="bg-primary text-primary-foreground font-bold text-lg">
                           {user?.username ? user.username.charAt(0).toUpperCase() : <User />}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none text-foreground">
+                        <p className="text-base font-medium leading-none text-foreground">
                           {user?.username || "Current User"}
                         </p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                          Navigator Account
+                        <p className="text-sm leading-none text-muted-foreground">
+                          {user?.email}
                         </p>
                       </div>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                     <DropdownMenuItem onClick={signOut}>
-                      <PlusCircle className="mr-2 h-4 w-4" />
-                      <span>Add Account</span>
-                    </DropdownMenuItem>
+                    <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground tracking-wider px-2">
+                        Other accounts
+                    </DropdownMenuLabel>
+                     {knownAccounts.filter(acc => acc.id !== user?.id).map(account => (
+                        <DropdownMenuItem key={account.id} onSelect={() => handleSwitchAccount(account.email)}>
+                             <Avatar className="h-8 w-8 mr-2">
+                                <AvatarFallback className="bg-secondary text-secondary-foreground text-xs">
+                                {account.username ? account.username.charAt(0).toUpperCase() : ''}
+                                </AvatarFallback>
+                            </Avatar>
+                           <div className="flex flex-col">
+                                <span className="text-sm font-medium">{account.username}</span>
+                                <span className="text-xs text-muted-foreground">{account.email}</span>
+                           </div>
+                        </DropdownMenuItem>
+                     ))}
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={signOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
+                  <DropdownMenuGroup>
+                     <DropdownMenuItem onSelect={handleAddAccount}>
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      <span>Add another account</span>
+                    </DropdownMenuItem>
+                     <DropdownMenuItem onSelect={() => signOut()}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Sign out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>

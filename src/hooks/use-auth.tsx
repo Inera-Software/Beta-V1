@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { jwtDecode } from "jwt-decode";
 import { useLocalStorage } from './use-local-storage';
@@ -16,8 +16,9 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  knownAccounts: User[];
   signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => void;
+  signOut: (isAddingAccount?: boolean) => void;
   signUp: (username: string, email: string, password: string, confirm: string) => Promise<void>;
   loading: boolean;
 }
@@ -34,55 +35,72 @@ interface DecodedToken {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useLocalStorage<string | null>('authToken', null);
+  const [knownAccounts, setKnownAccounts] = useLocalStorage<User[]>('knownAccounts', []);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    try {
-      if (token) {
-        const decoded = jwtDecode<DecodedToken>(token);
-        if (decoded.exp * 1000 > Date.now()) {
-          // Only update state if the user is different
-          if (decoded.id !== user?.id) {
-            setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
-          }
-        } else {
-          // Token expired, clear user if it's currently set
-          if (user !== null) {
-            setUser(null);
-            setToken(null);
-          }
-        }
-      } else {
-        // No token, clear user if it's currently set
-        if (user !== null) {
-          setUser(null);
-        }
-      }
-    } catch (error) {
-      console.error("Invalid token:", error);
-      if (user !== null) {
-        setUser(null);
-        setToken(null);
-      }
-    } finally {
-        setLoading(false);
+  const updateUserFromToken = useCallback((currentToken: string | null) => {
+    if (!currentToken) {
+        if (user !== null) setUser(null);
+        return;
     }
-  }, [token, user, setToken]);
+    try {
+        const decoded = jwtDecode<DecodedToken>(currentToken);
+        if (decoded.exp * 1000 > Date.now()) {
+            const userData = { id: decoded.id, email: decoded.email, username: decoded.username };
+            // Only update state if user is different
+            if (user?.id !== userData.id) {
+                setUser(userData);
+            }
+        } else {
+            // Token expired
+            if (user !== null) setUser(null);
+            if (token !== null) setToken(null);
+        }
+    } catch (error) {
+        console.error("Invalid token:", error);
+        if (user !== null) setUser(null);
+        if (token !== null) setToken(null);
+    }
+  }, [user, token, setToken]);
+
+
+  useEffect(() => {
+    setLoading(true);
+    updateUserFromToken(token);
+    setLoading(false);
+  }, [token, updateUserFromToken]);
 
   useEffect(() => {
     if (loading) return;
 
-    const isAuthPage = pathname.startsWith('/user/login') || pathname.startsWith('/user/signup') || pathname.startsWith('/user/forgot-password') || pathname.startsWith('/user/reset-password');
-    const isPublicPage = isAuthPage || pathname === '/';
-
-    if (user && isAuthPage) {
+    const isAuthPage = pathname.startsWith('/user/login') || pathname.startsWith('/user/signup');
+    const isPublicPage = isAuthPage || pathname.startsWith('/user/forgot-password') || pathname.startsWith('/user/reset-password') || pathname === '/';
+    
+    if (user && isAuthPage && !pathname.includes('switch=true')) {
         router.push('/dashboard');
     } else if (!user && !isPublicPage) {
         router.push('/user/login');
     }
   }, [user, loading, pathname, router]);
+
+  const addKnownAccount = (newUser: User) => {
+    setKnownAccounts(prev => {
+        if (prev.find(u => u.id === newUser.id)) {
+            return prev;
+        }
+        return [...prev, newUser];
+    })
+  }
+
+  const handleAuthSuccess = (newToken: string) => {
+      setToken(newToken);
+      const decoded = jwtDecode<DecodedToken>(newToken);
+      const newUser = { id: decoded.id, email: decoded.email, username: decoded.username };
+      setUser(newUser);
+      addKnownAccount(newUser);
+  }
 
   const signIn = async (email: string, password: string) => {
     const response = await fetch(API_URL, {
@@ -96,9 +114,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
     const data = await response.json();
     if (response.ok) {
-      setToken(data.token);
-      const decoded = jwtDecode<DecodedToken>(data.token);
-      setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
+      handleAuthSuccess(data.token);
     } else {
       throw new Error(data.error || "Login failed.");
     }
@@ -118,21 +134,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       const data = await res.json();
       if(res.ok) {
-        setToken(data.token);
-        const decoded = jwtDecode<DecodedToken>(data.token);
-        setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
+        handleAuthSuccess(data.token);
       } else {
         throw new Error(data.error || 'Registration failed.');
       }
   }
 
-  const signOut = () => {
+  const signOut = (isAddingAccount = false) => {
     setUser(null);
     setToken(null);
-    router.push('/user/login');
+    const destination = isAddingAccount ? '/user/login?addAccount=true' : '/user/login';
+    router.push(destination);
   };
 
-  const value = { user, signIn, signOut, signUp, loading };
+  const value = { user, knownAccounts, signIn, signOut, signUp, loading };
 
   return (
     <AuthContext.Provider value={value}>
