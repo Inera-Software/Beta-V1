@@ -159,7 +159,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                     <DropdownMenuItem disabled>
+                     <DropdownMenuItem onClick={signOut}>
                       <PlusCircle className="mr-2 h-4 w-4" />
                       <span>Add Account</span>
                     </DropdownMenuItem>
