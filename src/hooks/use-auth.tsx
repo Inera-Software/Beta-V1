@@ -19,7 +19,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   signUp: (username: string, email: string, password: string, confirm: string) => Promise<void>;
-  loading: boolean;
+  loading: boolean; // Keep for compatibility, but it will be false.
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,14 +39,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    setLoading(true);
     try {
       if (token) {
         const decoded = jwtDecode<DecodedToken>(token);
         if (decoded.exp * 1000 > Date.now()) {
           setUser({ id: decoded.id, email: decoded.email, username: decoded.username });
         } else {
-          // Token expired
           setUser(null);
           setToken(null);
         }
@@ -57,20 +55,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error("Invalid token:", error);
       setUser(null);
       setToken(null);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
-  }, [token]);
+  }, [token, setToken]);
 
   useEffect(() => {
-    if (!loading) {
-        const isAuthPage = pathname.startsWith('/user/login') || pathname.startsWith('/user/signup') || pathname.startsWith('/user/forgot-password') || pathname.startsWith('/user/reset-password');
-        const isPublicPage = isAuthPage || pathname === '/';
-        
-        if (user && isAuthPage) {
-            router.push('/dashboard');
-        } else if (!user && !isPublicPage) {
-            router.push('/user/login');
-        }
+    if (loading) return;
+
+    const isAuthPage = pathname.startsWith('/user/login') || pathname.startsWith('/user/signup') || pathname.startsWith('/user/forgot-password') || pathname.startsWith('/user/reset-password');
+    const isPublicPage = isAuthPage || pathname === '/';
+
+    if (user && isAuthPage) {
+        router.push('/dashboard');
+    } else if (!user && !isPublicPage) {
+        router.push('/user/login');
     }
   }, [user, loading, pathname, router]);
 
@@ -126,7 +125,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-        {/* We don't show a loading spinner for the whole app, just manage state */}
         {children}
     </AuthContext.Provider>
   )
